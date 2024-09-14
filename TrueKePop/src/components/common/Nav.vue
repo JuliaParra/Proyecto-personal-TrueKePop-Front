@@ -1,5 +1,5 @@
 <template>
-    <nav class="navigation navbar navbar-expand-md bg-light py-2">
+    <nav class="navigation navbar navbar-expand-md bg-light py-1">
       <div class="container-fluid">
         <div class="navbar-nav">
           <router-link to="/urgente" class="nav-link nav-button">Urgente</router-link>
