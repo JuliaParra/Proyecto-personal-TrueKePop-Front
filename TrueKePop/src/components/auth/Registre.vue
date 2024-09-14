@@ -23,9 +23,9 @@ const handleRegister = () => {
 <template>
   <div class="register-page d-flex justify-content-center align-items-center">
     <div class="register-card shadow-lg">
-      <h2 class="title mb-4">¡Únete al cambio!</h2>
-      <form @submit.prevent="handleRegister">
-        <div class="mb-3">
+      <h2 class="title mb-3">¡Únete al cambio!</h2>
+      <form @submit.prevent="handleRegister" class="d-flex flex-column justify-content-between">
+        <div class="mb-2">
           <label for="username" class="form-label">Nombre de Usuario</label>
           <input
             type="text"
@@ -36,7 +36,7 @@ const handleRegister = () => {
             placeholder="Ingrese su nombre de usuario"
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="email" class="form-label">Correo Electrónico</label>
           <input
             type="email"
@@ -47,7 +47,7 @@ const handleRegister = () => {
             placeholder="Ingrese su correo electrónico"
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="confirmEmail" class="form-label">Confirmar Correo Electrónico</label>
           <input
             type="email"
@@ -58,7 +58,7 @@ const handleRegister = () => {
             placeholder="Confirme su correo electrónico"
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="password" class="form-label">Contraseña</label>
           <input
             type="password"
@@ -69,7 +69,7 @@ const handleRegister = () => {
             placeholder="Ingrese su contraseña"
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
           <input
             type="password"
@@ -80,17 +80,23 @@ const handleRegister = () => {
             placeholder="Confirme su contraseña"
           />
         </div>
-        <button type="submit" class="btn btn-gradient w-100">¡Registrarse!</button>
+        <button type="submit" class="btn btn-gradient w-100 mt-2">¡Registrarse!</button>
       </form>
     </div>
   </div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+}
 
 .register-page {
-  height: 100vh;
+  height: 80vh; 
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A);
   display: flex;
   justify-content: center;
@@ -100,12 +106,16 @@ const handleRegister = () => {
 
 .register-card {
   background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  max-width: 480px;
+  padding: 15px; 
+  border-radius: 15px; 
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); 
+  max-width: 350px; 
   width: 100%;
-  border: none;
+  height: auto;
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .title {
@@ -113,28 +123,31 @@ const handleRegister = () => {
   color: #4ecfe9;
   font-weight: 700;
   text-align: center;
+  font-size: 1.5rem; 
+  margin-bottom: 5px; 
 }
 
 .form-label {
   font-family: 'Montserrat', sans-serif;
   color: #FF7A4A;
+  font-size: 0.9rem; 
 }
 
 .form-control {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  padding: 8px; 
+  font-size: 0.9rem; 
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); 
 }
 
 .btn-gradient {
   background: linear-gradient(135deg, #FF7A4A, #4ecfe9);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 16px;
+  padding: 10px; 
+  border-radius: 8px; 
+  font-size: 0.9rem; 
   font-weight: bold;
   transition: background 0.3s ease;
 }
