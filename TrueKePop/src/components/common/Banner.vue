@@ -69,6 +69,7 @@
   font-weight: bold;
   background: linear-gradient(135deg, rgb(255, 68, 0), rgb(0, 213, 255));
   -webkit-background-clip: text;
+  background-clip: text; 
   -webkit-text-fill-color: transparent;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4); 
