@@ -5,14 +5,13 @@ const email = ref('');
 const password = ref('');
 
 const handleLogin = () => {
- 
   alert('Inicio de sesión exitoso!');
 };
 </script>
 
 <template>
   <div class="login-page d-flex justify-content-center align-items-center">
-    <div class="login-card shadow-lg">
+    <div class="login-card shadow-lg animate__animated animate__fadeIn"> 
       <h2 class="title mb-4">Inicia tu Trueque</h2>
       <form @submit.prevent="handleLogin">
         <div class="mb-3">
@@ -46,11 +45,10 @@ const handleLogin = () => {
 
 <style scoped>
 
-
-
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 
 .login-page {
-  height: 80vh;
+  height: 83.8vh;
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A);
   display: flex;
   justify-content: center;
@@ -67,6 +65,19 @@ const handleLogin = () => {
   max-width: 480px;
   width: 100%;
   border: none;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards; 
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
@@ -87,6 +98,13 @@ const handleLogin = () => {
   padding: 12px;
   font-size: 14px;
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+
+.form-control:focus {
+  border-color: #4ecfe9;
+  box-shadow: 0 0 8px rgba(78, 207, 233, 0.5);
 }
 
 .btn-gradient {
@@ -114,5 +132,4 @@ const handleLogin = () => {
   color: #FF7A4A;
   text-decoration: underline;
 }
-
 </style>

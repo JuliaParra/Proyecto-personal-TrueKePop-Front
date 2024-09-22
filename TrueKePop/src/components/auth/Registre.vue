@@ -22,7 +22,7 @@ const handleRegister = () => {
 
 <template>
   <div class="register-page d-flex justify-content-center align-items-center">
-    <div class="register-card shadow-lg">
+    <div class="register-card shadow-lg animate__animated animate__fadeIn"> 
       <h2 class="title mb-3">¡Únete al cambio!</h2>
       <form @submit.prevent="handleRegister" class="d-flex flex-column justify-content-between">
         <div class="mb-2">
@@ -88,6 +88,8 @@ const handleRegister = () => {
 
 <style scoped>
 
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
 html, body {
   height: 100%;
   margin: 0;
@@ -96,7 +98,7 @@ html, body {
 }
 
 .register-page {
-  height: 80vh; 
+  height: 83.8vh; 
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A);
   display: flex;
   justify-content: center;
@@ -116,11 +118,25 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards; 
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
   font-family: 'Montserrat', sans-serif;
-  color: #4ecfe9;
+  color: #ff9f2a;
   font-weight: 700;
   text-align: center;
   font-size: 1.5rem; 
@@ -129,7 +145,7 @@ html, body {
 
 .form-label {
   font-family: 'Montserrat', sans-serif;
-  color: #FF7A4A;
+  color: #4ecfe9;
   font-size: 0.9rem; 
 }
 
@@ -139,6 +155,13 @@ html, body {
   padding: 8px; 
   font-size: 0.9rem; 
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+
+.form-control:focus {
+  border-color: #e99c4e;
+  box-shadow: 0 0 8px rgba(255, 180, 88, 0.5);
 }
 
 .btn-gradient {
@@ -151,6 +174,7 @@ html, body {
   font-weight: bold;
   transition: background 0.3s ease;
 }
+
 
 .btn-gradient:hover {
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A);

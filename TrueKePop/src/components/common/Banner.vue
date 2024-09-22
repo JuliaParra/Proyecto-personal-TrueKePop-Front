@@ -4,7 +4,7 @@
       <div class="col-md-10 banner-container">
         <router-link to="/registre" class="banner-link">
           <div class="banner">
-            <img src="@/assets/images/Banner.png" alt="Banner de TrueKePop" class="img-fluid banner-image shadow rounded" />
+            <img src="@/assets/images/Banner.png" alt="Banner de TrueKePop" class="img-fluid banner-image shadow-lg rounded" />
             <div class="overlay">
               <span class="overlay-text">Comienza el cambio</span>
             </div>
@@ -39,15 +39,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.5s ease;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+  border-radius: 20px;
 }
 
 .banner-image {
   width: 100%;
   height: auto;
-  max-height: 400px;
+  max-height: 450px;
   object-fit: cover;
-  transition: all 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
+  border-radius: 20px;
 }
 
 .overlay {
@@ -56,7 +59,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(78, 207, 233, 0.5), rgba(255, 122, 74, 0.5));
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,14 +68,11 @@
 }
 
 .overlay-text {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  background: linear-gradient(135deg, rgb(255, 68, 0), rgb(0, 213, 255));
-  -webkit-background-clip: text;
-  background-clip: text; 
-  -webkit-text-fill-color: transparent;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4); 
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); 
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
@@ -83,8 +83,8 @@
 }
 
 .banner:hover .banner-image {
-  transform: scale(1.05);
-  filter: brightness(1.1);
+  transform: scale(1.1); 
+  filter: brightness(1.1); 
 }
 
 .banner:hover .overlay-text {

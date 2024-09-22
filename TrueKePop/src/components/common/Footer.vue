@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer bg-light py-3 border-top">
+    <footer class="footer bg-light py-2 border-top">
       <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
         <p class="mb-0">&copy; 2024 TruekePop. Todos los derechos reservados.</p>
         <div class="footer-links d-flex mt-2 mt-md-0">
@@ -29,7 +29,8 @@
   }
   
   p {
-    font-size: 14px;
+    text-align: left;
+    font-size: 12px;
   }
   
   @media (min-width: 768px) {
