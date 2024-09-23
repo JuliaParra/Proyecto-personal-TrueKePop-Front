@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/HomeView.vue';
 import Registre from '@/components/auth/Registre.vue';
 import Login from '@/components/auth/Login.vue';
+import DirectoView from '@/views/DirectoView.vue';
+import NovedadesView from '@/views/NovedadesView.vue';
+import EscuchoOfertasView from '@/views/EscuchoOfertasView.vue';
+import UrgenteView from '@/views/UrgenteView.vue';
 
 
 const routes = [
@@ -23,6 +27,31 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+
+  {
+    path: '/Directo',
+    name: 'directo',
+    component: DirectoView,
+  },
+
+  {
+    path: '/Novedades',
+    name: 'Novedades',
+    component: NovedadesView,
+  },
+
+  
+  {
+    path: '/EscuchoOfertas',
+    name: 'EscuchoOfertas',
+    component: EscuchoOfertasView,
+  },
+
+  {
+    path: '/Urgente',
+    name: 'Urgente',
+    component: UrgenteView,
   },
  
 ];

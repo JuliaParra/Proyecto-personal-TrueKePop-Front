@@ -5,14 +5,14 @@
           <div class="card-container slide-card">
             <div class="card-front shadow">
               <div class="image-container">
-                <img src="../assets/images/caravana.jpg" class="card-image" alt="Card Front" />
+                <img src="/src/assets/images/caravana.jpg" class="card-image" alt="Card Front" />
               </div>
               <h3 class="card-title">{{ title }}</h3>
               <p class="card-subtitle">Encuentra el intercambio perfecto</p>
             </div>
             <div class="card-slide-info">
-              <!-- Logo con efecto de rotación en bucle -->
-              <img src="../assets/images/logo.png" class="rotating-logo" alt="Rotating Logo" />
+        
+              <img src="/src/assets/images/logo.png" class="rotating-logo" alt="Rotating Logo" />
               <p class="card-text wants-item">Busco: Monopatín</p>
               <h3 class="card-title">Trueke Disponible</h3>
               <p class="card-text has-item"> Bicicleta de montaña</p>
