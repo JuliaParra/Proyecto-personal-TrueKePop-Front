@@ -2,6 +2,7 @@
   
   import Nav from '@/components/common/Nav.vue';
 import Banner from './Banner.vue';
+import Card from './Card.vue'
 
 </script>
 
@@ -9,6 +10,7 @@ import Banner from './Banner.vue';
   <main>
     <Nav/>
     <Banner/>
+    <card/>
     
   </main>
 </template>
