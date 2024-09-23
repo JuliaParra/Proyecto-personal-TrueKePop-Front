@@ -22,7 +22,7 @@
       
      
       <div class="col-12 col-md-auto d-flex justify-content-md-end justify-content-center">
-        <router-link to="/login" class="btn btn-outline-primary login-button me-3">Inicio sesión</router-link>
+        <router-link to="/login" class="btn btn-outline login-button me-3">Inicio sesión</router-link>
         <router-link to="/registre" class="btn btn-outline-warning sell-button">Trueke</router-link>
       </div>
     </div>
@@ -40,7 +40,7 @@
 }
 
 .kepop {
-  color: #FF7A4A;
+  color: #ff9646de;
 }
 
 .logo-image {
@@ -59,7 +59,7 @@
 }
 
 .login-button:hover {
-  color: #ff4400;
+  color: #ff7b00;
   border-color: #F92D00;
 }
 

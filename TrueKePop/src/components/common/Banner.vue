@@ -5,8 +5,9 @@
         <router-link to="/registre" class="banner-link">
           <div class="banner">
             <img src="@/assets/images/Banner.png" alt="Banner de TrueKePop" class="img-fluid banner-image shadow-lg rounded" />
-            <div class="overlay">
-              <span class="overlay-text">Comienza el cambio</span>
+            <div class="text-content">
+              <h2 class="text-content-title">¡Únete al Trueke!</h2>
+              <p class="text-content-description">Cambia lo que ya no usas disfruta del algo diferente.</p>
             </div>
           </div>
         </router-link>
@@ -22,7 +23,6 @@
   align-items: center;
   width: 100%;
   padding: 0;
-  margin-top: -3%;
 }
 
 .banner-link {
@@ -39,9 +39,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
-  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+  border-radius: 25px;
 }
 
 .banner-image {
@@ -49,45 +48,43 @@
   height: auto;
   max-height: 450px;
   object-fit: cover;
-  transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
-  border-radius: 20px;
-}
-
-.overlay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.5s ease-in-out;
-  opacity: 0;
-}
-
-.overlay-text {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); 
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.banner:hover .overlay {
-  top: 0;
-  opacity: 1;
+  transition: filter 0.5s ease-in-out;
 }
 
 .banner:hover .banner-image {
-  transform: scale(1.1); 
-  filter: brightness(1.1); 
+  filter: contrast(0.5) saturate(2) grayscale(0.9) blur(8px); 
+  image-rendering: pixelated; 
 }
 
-.banner:hover .overlay-text {
-  opacity: 1;
+.text-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.banner:hover .text-content {
+  opacity: 3;
+}
+
+.text-content-title {
+  font-size: 2.8rem;;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.text-content-description {
+  font-size: 1.8rem;
+  color: rgb(254, 123, 0);
+  text-align: center;
+  margin-top: 10px;
 }
 </style>
