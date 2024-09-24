@@ -6,6 +6,9 @@ import DirectoView from '@/views/DirectoView.vue';
 import NovedadesView from '@/views/NovedadesView.vue';
 import EscuchoOfertasView from '@/views/EscuchoOfertasView.vue';
 import UrgenteView from '@/views/UrgenteView.vue';
+import TePuedeInteresar from '@/components/Categorias/TePuedeInteresar.vue';
+import TruekesMasUrgentes from '@/components/Categorias/TruekesMasUrgentes.vue';
+
 
 
 const routes = [
@@ -53,6 +56,20 @@ const routes = [
     name: 'Urgente',
     component: UrgenteView,
   },
+
+  {
+    path: '/tepuedeinteresar',
+    name: 'TePuedeInteresar',
+    component: TePuedeInteresar,
+  },
+
+  {
+    path: '/truekesmasurgentes',
+    name: 'TruekeMasUrgentes',
+    component: TruekesMasUrgentes,
+  },
+
+ 
  
 ];
 
