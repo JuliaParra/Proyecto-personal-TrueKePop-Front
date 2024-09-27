@@ -10,7 +10,7 @@
         <img src="@/assets/images/logo.png" alt="TrueKePop Logo" class="logo-image me-2" />
         <router-link to="/" class="logo-link text-decoration-none">
           <h1 class="m-0 d-flex align-items-center">
-            <span class="true">True</span><span class="kepop">KePop</span>
+            <span class="true">TrueK</span><span class="kepop">ePop</span>
           </h1>
         </router-link>
       </div>
@@ -36,11 +36,11 @@
 }
 
 .true {
-  color: #4ecfe9;
+  color: rgb(34, 207, 207);
 }
 
 .kepop {
-  color: #ff9646de;
+  color: #ff8e38;
 }
 
 .logo-image {
@@ -54,8 +54,8 @@
 }
 
 .login-button {
-  color: #4ecfe9;
-  border-color: #4ecfe9;
+  color: rgb(34, 207, 207);
+  border-color: rgb(34, 207, 207);
 }
 
 .login-button:hover {
@@ -69,9 +69,9 @@
 }
 
 .sell-button:hover {
-  color: #fde6e1;
-  background-color: #4ecfe9;
-  border-color: #ffc7ba;
+  color: #ffffff;
+  background-color: rgb(34, 207, 207);
+  border-color: #fe811a;
 }
 
 @media (max-width: 768px) {

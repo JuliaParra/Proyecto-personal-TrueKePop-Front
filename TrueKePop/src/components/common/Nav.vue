@@ -37,7 +37,7 @@
 
 .nav-button.active {
   color: #ffffff;
-  background-color: #4ecfe9; 
+  background-color: rgb(34, 207, 207); 
   border-bottom: 2px solid #FF7A4A; 
 }
 
