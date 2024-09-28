@@ -18,7 +18,7 @@ const handleRegister = async () => {
       password: password.value,
     });
     alert(response.data);
-    // Redireccionar al inicio de sesión
+    
     // this.$router.push('/login');
   } catch (error) {
     if (error.response) {
@@ -33,7 +33,7 @@ const handleRegister = async () => {
 <template>
   <div class="register-page d-flex justify-content-center align-items-center">
     <div class="register-card shadow-lg animate__animated animate__fadeIn"> 
-      <h2 class="title mb-3">¡Únete al cambio!</h2>
+      <h2 class="title mb-3"><strong>¡Únete al cambio!</strong></h2>
       <form @submit.prevent="handleRegister" class="d-flex flex-column justify-content-between">
         <div class="mb-2">
           <label for="email" class="form-label">Correo Electrónico</label>
@@ -87,7 +87,7 @@ html, body {
 
 .register-page {
   height: 83.8vh; 
-  background: linear-gradient(135deg, #4ecfe9, #FF7A4A);
+  background: linear-gradient(135deg,  #FF7A4A, rgb(34, 207, 207));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,10 +96,10 @@ html, body {
 
 .register-card {
   background: white;
-  padding: 15px; 
+  padding: 20px; 
   border-radius: 15px; 
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); 
-  max-width: 350px; 
+  max-width: 450px; 
   width: 100%;
   height: auto;
   overflow-y: auto; 
@@ -124,7 +124,7 @@ html, body {
 
 .title {
   font-family: 'Montserrat', sans-serif;
-  color: #ff9f2a;
+  color: #ff862a;
   font-weight: 700;
   text-align: center;
   font-size: 1.5rem; 

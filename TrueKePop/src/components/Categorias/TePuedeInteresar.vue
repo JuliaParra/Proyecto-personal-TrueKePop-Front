@@ -1,6 +1,6 @@
 <template>
     <div class="carousel-section">
-      <h2 class="section-title">Te puede interesar.</h2>
+      <h3 class="section-title">Te puede interesar.</h3>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="false">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -119,8 +119,8 @@
   
   .section-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 2.5rem;
-    color: #ff9646;
+    font-size: 2.3rem;
+    color: #1e1712;
     margin-bottom: 20px;
     font-weight: bold;
   }
@@ -136,8 +136,8 @@
   .carousel-control-next-icon.custom-next-icon {
     background-color: rgb(0, 217, 255);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
   
   .carousel-control-prev {
@@ -227,25 +227,25 @@
   
   .card-subtitle {
     font-size: 0.9rem;
-    color: #ffa43c;
+    color: #ff7b00;
     text-align: center;
     margin-top: 10px;
   }
   
   .card-text.has-item {
     font-size: 1.1rem;
-    color: #e7984f;
+    color: #ff7b00;
     margin-bottom: 15px;
   }
   
   .card-text.wants-item {
     font-size: 1.1rem;
-    color: #4ecfe9;
+    color: rgb(34, 207, 207);
   }
   
   .btn-outline-primary {
-    border: 1px solid #4ecfe9;
-    color: #4ecfe9;
+    border: 1px solid rgb(34, 207, 207);
+    color: rgb(34, 207, 207);
     background-color: transparent;
     border-radius: 30px;
     transition: background-color 0.8s ease, color 0.8s ease;

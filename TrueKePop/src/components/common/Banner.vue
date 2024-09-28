@@ -1,13 +1,15 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-10 banner-container">
+  <div class="container-fluid px-0">
+    <div class="row mx-0">
+      <div class="col-12 px-0">
         <router-link to="/registre" class="banner-link">
-          <div class="banner">
-            <img src="@/assets/images/Banner.png" alt="Banner de TrueKePop" class="img-fluid banner-image shadow-lg rounded" />
-            <div class="text-content">
-              <h2 class="text-content-title">¡Únete al Trueke!</h2>
-              <p class="text-content-description">Cambia lo que ya no usas disfruta del algo diferente.</p>
+          <div class="banner-container">
+            <div class="banner shadow-lg">
+              <img src="@/assets/images/Banner.png" alt="Banner de TrueKePop" class="img-fluid banner-image" />
+              <div class="text-content">
+                <h2 class="text-content-title">¡Únete al Trueke!</h2>
+                <p class="text-content-description"><strong>Cambia lo que ya no usas, disfruta de algo diferente.</strong> </p>
+              </div>
             </div>
           </div>
         </router-link>
@@ -17,43 +19,49 @@
 </template>
 
 <style scoped>
-.banner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.container-fluid,
+.row {
   width: 100%;
+  margin: 0;
   padding: 0;
 }
 
 .banner-link {
   width: 100%;
+  display: block;
+}
+
+.banner-container {
+  width: 100vw;
+  background-color: #FE7B00;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 10px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
 }
 
 .banner {
   position: relative;
   overflow: hidden;
+  max-width: 1200px;
+  width: 100%;
+  max-height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: box-shadow 0.3s ease;
-  border-radius: 25px;
 }
 
 .banner-image {
   width: 100%;
   height: auto;
-  max-height: 450px;
-  object-fit: cover;
+  object-fit: contain;
   transition: filter 0.5s ease-in-out;
 }
 
-.banner:hover .banner-image {
-  filter: contrast(0.5) saturate(2) grayscale(0.9) blur(8px); 
-  image-rendering: pixelated; 
+/* Mover el efecto de hover al contenedor */
+.banner-container:hover .banner-image {
+  filter: brightness(0.8);
 }
 
 .text-content {
@@ -66,23 +74,25 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-.banner:hover .text-content {
-  opacity: 3;
+/* Mover el efecto de hover al contenedor */
+.banner-container:hover .text-content {
+  opacity: 1;
 }
 
 .text-content-title {
-  font-size: 2.8rem;;
+  font-size: 3rem;
   font-weight: bold;
   color: white;
   text-align: center;
 }
 
 .text-content-description {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   color: rgb(254, 123, 0);
   text-align: center;
   margin-top: 10px;
