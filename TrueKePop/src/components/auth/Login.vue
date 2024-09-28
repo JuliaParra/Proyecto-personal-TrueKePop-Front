@@ -1,14 +1,29 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
+const router = useRouter();
 
 const handleLogin = async () => {
   try {
     console.log('Datos para login:', { email: email.value, password: password.value });
 
+    const response = await axios.post(
+      'http://localhost:8080/api/login',
+      {
+        email: email.value,
+        password: password.value,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Permitir el envío de cookies con la solicitud
+      }
+    );
     const response = await axios.post(
       'http://localhost:8080/api/login',
       {
