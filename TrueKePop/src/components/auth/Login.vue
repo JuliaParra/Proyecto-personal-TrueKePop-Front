@@ -1,11 +1,49 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
+const router = useRouter();
 
-const handleLogin = () => {
-  alert('Inicio de sesión exitoso!');
+const handleLogin = async () => {
+  try {
+    // Depuración: Imprimir los datos de login antes de enviarlos
+    console.log('Datos para login:', { email: email.value, password: password.value });
+
+    const response = await axios.post(
+      'http://localhost:8080/api/login',
+      {
+        email: email.value,
+        password: password.value,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Permitir el envío de cookies con la solicitud
+      }
+    );
+
+    alert('Inicio de sesión exitoso!');
+    // Aquí puedes manejar el token recibido o el estado de autenticación
+    console.log('Respuesta del servidor:', response.data);
+
+    // Redireccionar al dashboard
+    router.push('/dashboard');
+  } catch (error) {
+    if (error.response) {
+      console.error('Error en la respuesta del servidor:', error.response);
+      alert('Error en el inicio de sesión: ' + (error.response.data.message || error.response.data));
+    } else if (error.request) {
+      console.error('No se recibió respuesta del servidor:', error.request);
+      alert('No se recibió respuesta del servidor.');
+    } else {
+      console.error('Error al configurar la solicitud:', error.message);
+      alert('Error: ' + error.message);
+    }
+  }
 };
 </script>
 
@@ -38,32 +76,40 @@ const handleLogin = () => {
         </div>
         <button type="submit" class="btn btn-gradient w-100">Iniciar Sesión</button>
       </form>
-      <p class="text-center mt-3">¿No tienes una cuenta? <router-link to="/registre" class="text-primary">Regístrate aquí</router-link></p>
+      <p class="text-center mt-3">¿No tienes una cuenta? <router-link to="/register" class="text-primary">Regístrate aquí</router-link></p>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+}
 
 .login-page {
-  height: 83.8vh;
+  height: 83.8vh; 
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  overflow: hidden; 
 }
 
 .login-card {
   background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  max-width: 480px;
+  padding: 15px; 
+  border-radius: 15px; 
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); 
+  max-width: 350px; 
   width: 100%;
-  border: none;
+  height: auto;
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   opacity: 0;
   animation: fadeIn 1.5s ease-in-out forwards; 
 }
@@ -81,54 +127,45 @@ const handleLogin = () => {
 
 .title {
   font-family: 'Montserrat', sans-serif;
-  color: #4ecfe9;
+  color: #ff9f2a;
   font-weight: 700;
   text-align: center;
+  font-size: 1.5rem; 
+  margin-bottom: 5px; 
 }
 
 .form-label {
   font-family: 'Montserrat', sans-serif;
-  color: #FF7A4A;
+  color: #4ecfe9;
+  font-size: 0.9rem; 
 }
 
 .form-control {
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  padding: 8px; 
+  font-size: 0.9rem; 
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); 
   transition: border-color 0.3s ease, box-shadow 0.3s ease; 
 }
 
-
 .form-control:focus {
-  border-color: #4ecfe9;
-  box-shadow: 0 0 8px rgba(78, 207, 233, 0.5);
+  border-color: #e99c4e;
+  box-shadow: 0 0 8px rgba(255, 180, 88, 0.5);
 }
 
 .btn-gradient {
   background: linear-gradient(135deg, #FF7A4A, #4ecfe9);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 16px;
+  padding: 10px; 
+  border-radius: 8px; 
+  font-size: 0.9rem; 
   font-weight: bold;
   transition: background 0.3s ease;
 }
 
 .btn-gradient:hover {
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A);
-}
-
-.text-primary {
-  color: #4ecfe9;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.text-primary:hover {
-  color: #FF7A4A;
-  text-decoration: underline;
 }
 </style>

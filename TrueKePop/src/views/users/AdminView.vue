@@ -1,11 +1,12 @@
 <script setup>
-import Nav from '@/components/common/Nav.vue';
+
+import Admin from '@/components/users/AdminDashboard.vue';
 
 </script>
 
 <template>
   <main>
-   <Nav/>>
+   <Admin/>
    
   </main>
 </template>

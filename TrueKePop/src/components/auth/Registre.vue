@@ -1,22 +1,32 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 
 const email = ref('');
-const confirmEmail = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 
-const handleRegister = () => {
-  if (email.value !== confirmEmail.value) {
-    alert('Los correos electrónicos no coinciden.');
-    return;
-  }
+const handleRegister = async () => {
   if (password.value !== confirmPassword.value) {
-    alert('Las contraseñas no coinciden.');
+    alert("Las contraseñas no coinciden.");
     return;
   }
   
-  alert('Registro exitoso!');
+  try {
+    const response = await axios.post('http://localhost:8080/api/register', {
+      email: email.value,
+      password: password.value,
+    });
+    alert(response.data);
+    // Redireccionar al inicio de sesión
+    // this.$router.push('/login');
+  } catch (error) {
+    if (error.response) {
+      alert('Error en el registro: ' + error.response.data);
+    } else {
+      alert('Error: ' + error.message);
+    }
+  }
 };
 </script>
 
@@ -26,17 +36,6 @@ const handleRegister = () => {
       <h2 class="title mb-3">¡Únete al cambio!</h2>
       <form @submit.prevent="handleRegister" class="d-flex flex-column justify-content-between">
         <div class="mb-2">
-          <label for="username" class="form-label">Nombre de Usuario</label>
-          <input
-            type="text"
-            id="username"
-            v-model="username"
-            required
-            class="form-control"
-            placeholder="Ingrese su nombre de usuario"
-          />
-        </div>
-        <div class="mb-2">
           <label for="email" class="form-label">Correo Electrónico</label>
           <input
             type="email"
@@ -45,17 +44,6 @@ const handleRegister = () => {
             required
             class="form-control"
             placeholder="Ingrese su correo electrónico"
-          />
-        </div>
-        <div class="mb-2">
-          <label for="confirmEmail" class="form-label">Confirmar Correo Electrónico</label>
-          <input
-            type="email"
-            id="confirmEmail"
-            v-model="confirmEmail"
-            required
-            class="form-control"
-            placeholder="Confirme su correo electrónico"
           />
         </div>
         <div class="mb-2">

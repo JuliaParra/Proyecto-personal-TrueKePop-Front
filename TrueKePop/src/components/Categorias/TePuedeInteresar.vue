@@ -109,6 +109,8 @@
   </script>
   
   <style scoped>
+
+  
   .carousel-section {
     margin-bottom: 50px;
     text-align: left;
