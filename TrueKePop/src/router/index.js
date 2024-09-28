@@ -8,6 +8,7 @@ import EscuchoOfertasView from '@/views/categorias/EscuchoOfertasView.vue';
 import UrgenteView from '@/views/categorias/UrgenteView.vue';
 import TePuedeInteresar from '@/components/Categorias/TePuedeInteresar.vue';
 import TruekesMasUrgentes from '@/components/Categorias/TruekesMasUrgentes.vue';
+import AdminView from '@/views/users/AdminView.vue';
 
 
 
@@ -67,6 +68,12 @@ const routes = [
     path: '/truekesmasurgentes',
     name: 'TruekeMasUrgentes',
     component: TruekesMasUrgentes,
+  },
+
+  {
+    path: '/Admin',
+    name: 'Admin',
+    component: AdminView,
   },
 
  
