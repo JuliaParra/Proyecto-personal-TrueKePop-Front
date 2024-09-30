@@ -59,7 +59,7 @@
   transition: filter 0.5s ease-in-out;
 }
 
-/* Mover el efecto de hover al contenedor */
+
 .banner-container:hover .banner-image {
   filter: brightness(0.8);
 }
@@ -79,7 +79,7 @@
   transition: opacity 0.5s ease;
 }
 
-/* Mover el efecto de hover al contenedor */
+
 .banner-container:hover .text-content {
   opacity: 1;
 }

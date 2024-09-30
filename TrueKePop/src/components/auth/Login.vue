@@ -21,25 +21,20 @@ const handleLogin = async () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        withCredentials: true, // Permitir el envío de cookies con la solicitud
-      }
-    );
-    const response = await axios.post(
-      'http://localhost:8080/api/login',
-      {
-        email: email.value,
-        password: password.value,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
         withCredentials: true,
       }
     );
 
     alert('Inicio de sesión exitoso!');
     console.log('Respuesta del servidor:', response.data);
+
+    // Verificar el rol del usuario y redirigir a la vista correspondiente
+    const userRole = response.data.roles; // Asumiendo que el rol está en `response.data.roles`
+    if (userRole === 'ROLE_ADMIN') {
+      router.push('/Admin'); 
+    } else {
+      router.push('/'); 
+    }
   } catch (error) {
     if (error.response) {
       console.error('Error en la respuesta del servidor:', error.response);
@@ -90,7 +85,7 @@ const handleLogin = async () => {
 </template>
 
 <style scoped>
-/* Estilos compartidos con la página de registro */
+
 html, body {
   height: 100%;
   margin: 0;
