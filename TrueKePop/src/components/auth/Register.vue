@@ -16,10 +16,11 @@ const handleRegister = async () => {
   }
 
   try {
-    const response = await axios.post('/api/register', {
+    const response = await axios.post('http://localhost:8080/api/register', {
   username: username.value,
   email: email.value,
   password: password.value,
+  confirmPassword: confirmPassword.value,
 }, {
   headers: {
     'Content-Type': 'application/json',

@@ -27,7 +27,6 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nombre</th>
               <th>Email</th>
               <th>Rol</th>
               <th>Acciones</th>
@@ -36,9 +35,8 @@
           <tbody>
             <tr v-for="user in users" :key="user.id">
               <td>{{ user.id }}</td>
-              <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.role }}</td>
+              <td>{{ user.roles[0]?.name }}</td> <!-- Ajuste para mostrar el rol -->
               <td>
                 <button class="btn btn-danger btn-sm" @click="bloquearUsuario(user.id)">Bloquear</button>
               </td>
@@ -47,7 +45,7 @@
         </table>
       </div>
 
-      <!-- Sección de Reportes -->
+      <!-- Sección de Reportes (Datos Estáticos por Ahora) -->
       <div>
         <h2>Lista de Reportes</h2>
         <table class="table table-striped table-hover">
@@ -74,18 +72,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter();
 
-const users = ref([
-  { id: 1, name: 'Carlos Martínez', email: 'carlos@example.com', role: 'Administrador' },
-  { id: 2, name: 'Ana López', email: 'ana@example.com', role: 'Editor' },
-  { id: 3, name: 'Luis Gómez', email: 'luis@example.com', role: 'Usuario' },
-  { id: 4, name: 'María Fernández', email: 'maria@example.com', role: 'Usuario' },
-]);
-
+// Variables reactivas para los datos
+const users = ref([]);
 const reports = ref([
   { id: 101, title: 'Reporte de Ventas', description: 'Análisis de las ventas del último trimestre.', date: '2024-04-15' },
   { id: 102, title: 'Reporte de Usuarios', description: 'Estadísticas de nuevos usuarios registrados.', date: '2024-04-20' },
@@ -93,18 +87,71 @@ const reports = ref([
   { id: 104, title: 'Reporte de Marketing', description: 'Eficacia de las campañas de marketing recientes.', date: '2024-04-30' },
 ]);
 
+// Función para obtener la lista de usuarios desde el backend
+const fetchUsers = async () => {
+  try {
+    const authToken = localStorage.getItem('authToken'); // Obtener el token de autenticación
+    if (!authToken) {
+      console.error('Token de autenticación no encontrado');
+      router.push('/login');
+      return;
+    }
+
+    const response = await axios.get('http://localhost:8080/api/admin/users', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`, 
+      },
+      withCredentials: true, 
+    });
+    users.value = response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      console.error('No autorizado. Redirigiendo al inicio de sesión.');
+      router.push('/login');
+    } else {
+      console.error('Error al obtener la lista de usuarios:', error);
+    }
+  }
+};
+
+
+onMounted(() => {
+  fetchUsers();
+});
+
 const cerrarSesion = () => {
-  localStorage.removeItem('authToken');
+  localStorage.removeItem('authToken'); 
   router.push('/login');
 };
 
-const bloquearUsuario = (userId) => {
+const bloquearUsuario = async (userId) => {
   const user = users.value.find(user => user.id === userId);
   if (user) {
-    // Aquí puedes añadir la lógica para bloquear al usuario, como realizar una solicitud al backend
-    alert(`Usuario ${user.name} bloqueado.`);
-    // Ejemplo: eliminar el usuario de la lista
-    users.value = users.value.filter(user => user.id !== userId);
+    try {
+      const authToken = localStorage.getItem('authToken'); 
+      if (!authToken) {
+        console.error('Token de autenticación no encontrado');
+        router.push('/login');
+        return;
+      }
+
+      await axios.post(`http://localhost:8080/api/admin/users/${userId}/block`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`, 
+        },
+      });
+      alert(`Usuario ${user.email} bloqueado.`);
+      users.value = users.value.filter(user => user.id !== userId);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.error('No autorizado. Redirigiendo al inicio de sesión.');
+        router.push('/login');
+      } else {
+        console.error('Error al bloquear el usuario:', error);
+      }
+    }
   }
 };
 </script>

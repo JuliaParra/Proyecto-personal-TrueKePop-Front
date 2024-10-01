@@ -1,11 +1,12 @@
 <script setup>
-import Registre from '@/components/Registre.vue';
+import Register from '@/components/auth/Register.vue';
+
 
 
 </script>
 
 <template>
     <div class="registre-container">
-      <Registre />
+      <Register />
     </div>
   </template>

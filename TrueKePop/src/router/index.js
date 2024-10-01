@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/HomeView.vue';
-import Registre from '@/components/auth/Registre.vue';
 import Login from '@/components/auth/Login.vue';
 import DirectoView from '@/views/categorias/DirectoView.vue';
 import NovedadesView from '@/views/categorias/NovedadesView.vue';
@@ -9,6 +8,7 @@ import UrgenteView from '@/views/categorias/UrgenteView.vue';
 import TePuedeInteresar from '@/components/Categorias/TePuedeInteresar.vue';
 import TruekesMasUrgentes from '@/components/Categorias/TruekesMasUrgentes.vue';
 import AdminView from '@/views/users/AdminView.vue';
+import RegisterView from '@/views/auth/RegisterView.vue';
 
 
 
@@ -19,13 +19,15 @@ const routes = [
     component: HomePage,
   },
 
-
-
   {
-    path: '/registre',
-    name: 'Registre',
-    component: Registre,
+    path: '/register',
+    name: 'Register',
+    component: RegisterView,
   },
+
+
+
+ 
 
   {
     path: '/login',
