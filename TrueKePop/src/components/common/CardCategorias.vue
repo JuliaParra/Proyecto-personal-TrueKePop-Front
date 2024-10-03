@@ -1,59 +1,31 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-const novedades = ref([
-  { 
-    name: 'Bicicleta Vintage', 
-    description: 'Cambio bicicleta vintage por monopatín en perfecto estado. Ideal para desplazamientos urbanos.',
-    image: '/src/assets/images/caravana.jpg', 
-    userName: 'Carlos Martínez', 
-    userAvatar: '/path/to/avatar1.jpg', 
-    date: 'Hace 2 horas', 
-    likes: 25, 
-    type: 'trueke',
-    desiredItem: 'Monopatín de alta calidad',
-    location: 'Madrid, España',
-  },
-  { 
-    name: 'Cámara DSLR', 
-    description: 'Cambio cámara DSLR por equipo de fotografía profesional. Incluye lentes y accesorios.',
-    image: '/src/assets/images/caravana.jpg', 
-    userName: 'Ana López', 
-    userAvatar: '/path/to/avatar2.jpg', 
-    date: 'Hace 1 día', 
-    likes: 40, 
-    type: 'oferta',
-    desiredItem: 'Accesorios de Fotografía',
-    location: 'Barcelona, España',
-  },
-  { 
-    name: 'Smartphone Samsung', 
-    description: 'Vendo smartphone Samsung Galaxy en excelente estado, sin golpes ni rayones.',
-    image: '/src/assets/images/caravana.jpg', 
-    userName: 'Luis Gómez', 
-    userAvatar: '/path/to/avatar3.jpg', 
-    date: 'Hace 3 días', 
-    likes: 30, 
-    type: 'oferta',
-    desiredItem: 'Accesorios para Smartphone',
-    location: 'Valencia, España',
-  },
-  { 
-    name: 'Patín Eléctrico', 
-    description: 'Patín eléctrico usado, perfecto para desplazamientos cortos y diversión.',
-    image: '/src/assets/images/caravana.jpg', 
-    userName: 'María Fernández', 
-    userAvatar: '/path/to/avatar4.jpg', 
-    date: 'Hace 5 días', 
-    likes: 15, 
-    type: 'trueke',
-    desiredItem: 'Bicicleta o Scooter',
-    location: 'Sevilla, España',
-  },
-]);
+axios.defaults.baseURL = 'http://localhost:8080/api'; 
 
-const likeItem = (item) => {
-  item.likes += 1;
+const novedades = ref([]);
+
+const fetchNovedades = async () => {
+  try {
+    const response = await axios.get('/truekes'); 
+    novedades.value = response.data;
+  } catch (error) {
+    console.error('Error al cargar los truekes:', error.response ? error.response.data : error.message);
+  }
+};
+
+onMounted(() => {
+  fetchNovedades();
+});
+
+const likeItem = async (item) => {
+  try {
+    await axios.post(`/truekes/${item.id}/favorite`); 
+    item.likes += 1; 
+  } catch (error) {
+    console.error('Error al agregar a favoritos:', error.response ? error.response.data : error.message);
+  }
 };
 
 const commentItem = (item) => {
@@ -61,10 +33,11 @@ const commentItem = (item) => {
 };
 </script>
 
+
 <template>
   <div class="container-fluid mt-5 px-5">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
-      <div v-for="(item, index) in novedades" :key="index" class="col">
+      <div v-for="(item, index) in novedades" :key="item.id" class="col">
         <div class="card h-100 shadow-sm">
           <div class="card-header d-flex align-items-center bg-transparent">
             <img :src="item.userAvatar" alt="Avatar del usuario" class="rounded-circle me-3 avatar">
@@ -97,6 +70,8 @@ const commentItem = (item) => {
     </div>
   </div>
 </template>
+
+
 
 <style scoped>
 

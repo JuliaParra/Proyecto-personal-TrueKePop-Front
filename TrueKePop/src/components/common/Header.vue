@@ -1,11 +1,35 @@
 <script setup>
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore'; 
+
+const route = useRoute();
+const router = useRouter();
+const authStore = useAuthStore(); 
+
+const isUserPage = computed(() => authStore.isAuthenticated);
+const userName = computed(() => authStore.userName); 
+
+// Estado para controlar el menú desplegable del logout
+const showLogout = ref(false);
+
+// Método para cerrar sesión
+const logout = () => {
+  authStore.logout(); // Llamada al método de logout en el store
+  router.push('/login'); // Redirigir al usuario a la página de inicio de sesión
+  showLogout.value = false; // Ocultar el menú de logout
+};
+
+// Método para alternar el estado del menú de logout
+const toggleLogoutMenu = () => {
+  showLogout.value = !showLogout.value;
+};
 </script>
 
 <template>
   <header class="header container-fluid py-3 border-bottom">
     <div class="row align-items-center justify-content-between">
       
-     
       <div class="col-12 col-md-auto d-flex align-items-center">
         <img src="@/assets/images/logo.png" alt="TrueKePop Logo" class="logo-image me-2" />
         <router-link to="/" class="logo-link text-decoration-none">
@@ -15,19 +39,28 @@
         </router-link>
       </div>
       
-      
       <div class="col-12 col-md flex-grow-1">
         <input type="text" class="form-control search-bar" placeholder="Search items..." />
       </div>
       
-     
       <div class="col-12 col-md-auto d-flex justify-content-md-end justify-content-center">
-        <router-link to="/login" class="btn btn-outline login-button me-3">Inicio sesión</router-link>
-        <router-link to="/registre" class="btn btn-outline-warning sell-button">Trueke</router-link>
+        <div v-if="isUserPage">
+          <p class="welcome-text" @click="toggleLogoutMenu">Hola, {{ userName }}</p>
+          <button v-if="showLogout" @click="logout" class="btn btn-outline-danger">Cerrar sesión</button>
+        </div>
+        <div v-else>
+          <router-link to="/login" class="btn btn-outline login-button me-3">Inicio sesión</router-link>
+          <router-link to="/registre" class="btn btn-outline-warning sell-button">Trueke</router-link>
+        </div>
       </div>
     </div>
   </header>
 </template>
+
+<style scoped>
+
+</style>
+
 
 <style scoped>
 .header {
@@ -51,6 +84,12 @@
   width: 100%;
   border-radius: 20px;
   border: 1px solid #FF7A4A;
+}
+
+.welcome-text {
+  font-size: 16px;
+  color: #30ccbdfd;
+  font-weight: bold;
 }
 
 .login-button {
@@ -86,6 +125,10 @@
   
   .login-button, .sell-button {
     width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .welcome-text {
     margin-bottom: 10px;
   }
 }

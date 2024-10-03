@@ -1,115 +1,85 @@
-<template>
-    <div class="carousel-section">
-      <h3 class="section-title">Te puede interesar.</h3>
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="false">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-  
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="row justify-content-center">
-              <div class="col-md-4 mb-3" v-for="(title, index) in cardTitles.slice(0, 3)" :key="index">
-                <div class="card-container slide-card">
-                  <div class="card-front shadow">
-                    <div class="image-container">
-                      <img src="/src/assets/images/caravana.jpg" class="card-image" alt="Card Front" />
-                    </div>
-                    <h3 class="card-title">{{ title }}</h3>
-                    <p class="card-subtitle">Encuentra el intercambio perfecto</p>
-                  </div>
-                  <div class="card-slide-info">
-                    <img src="/src/assets/images/logo.png" class="rotating-logo" alt="Rotating Logo" />
-                    <p class="card-text wants-item">Busco: Monopatín</p>
-                    <h3 class="card-title">Trueke Disponible</h3>
-                    <p class="card-text has-item">Bicicleta de montaña</p>
-                    <button class="btn btn-outline-primary mt-3">Ver detalles</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <div class="carousel-item">
-            <div class="row justify-content-center">
-              <div class="col-md-4 mb-3" v-for="(title, index) in cardTitles.slice(3, 6)" :key="index">
-                <div class="card-container slide-card">
-                  <div class="card-front shadow">
-                    <div class="image-container">
-                      <img src="/src/assets/images/caravana.jpg" class="card-image" alt="Card Front" />
-                    </div>
-                    <h3 class="card-title">{{ title }}</h3>
-                    <p class="card-subtitle">Encuentra el intercambio perfecto</p>
-                  </div>
-                  <div class="card-slide-info">
-                    <img src="/src/assets/images/logo.png" class="rotating-logo" alt="Rotating Logo" />
-                    <p class="card-text wants-item">Busco: Monopatín</p>
-                    <h3 class="card-title">Trueke Disponible</h3>
-                    <p class="card-text has-item">Bicicleta de montaña</p>
-                    <button class="btn btn-outline-primary mt-3">Ver detalles</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <div class="carousel-item">
-            <div class="row justify-content-center">
-              <div class="col-md-4 mb-3" v-for="(title, index) in cardTitles.slice(6, 8)" :key="index">
-                <div class="card-container slide-card">
-                  <div class="card-front shadow">
-                    <div class="image-container">
-                      <img src="/src/assets/images/caravana.jpg" class="card-image" alt="Card Front" />
-                    </div>
-                    <h3 class="card-title">{{ title }}</h3>
-                    <p class="card-subtitle">Encuentra el intercambio perfecto</p>
-                  </div>
-                  <div class="card-slide-info">
-                    <img src="/src/assets/images/logo.png" class="rotating-logo" alt="Rotating Logo" />
-                    <p class="card-text wants-item">Busco: Monopatín</p>
-                    <h3 class="card-title">Trueke Disponible</h3>
-                    <p class="card-text has-item">Bicicleta de montaña</p>
-                    <button class="btn btn-outline-primary mt-3">Ver detalles</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  
-  const titles = ['Trueke Directo', 'Escucho Ofertas'];
-  
-  const generateRandomTitles = (numCards) => {
-    let randomTitles = [];
-    for (let i = 0; i < numCards; i++) {
-      const randomIndex = Math.floor(Math.random() * titles.length);
-      randomTitles.push(titles[randomIndex]);
-    }
-    return randomTitles;
-  };
-  
-  const cardTitles = ref(generateRandomTitles(8));
-  </script>
-  
-  <style scoped>
 
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
+
+
+
+const novedades = ref([]);
+
+const fetchNovedades = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/truekes');
+    novedades.value = response.data;
+  } catch (error) {
+    console.error('Error al cargar los truekes:', error.response ? error.response.data : error.message);
+  }
+};
+
+onMounted(() => {
+  fetchNovedades();
+});
+
+
+const chunkedNovedades = computed(() => {
+  const chunkSize = 3;
+  const chunks = [];
+  for (let i = 0; i < novedades.value.length; i += chunkSize) {
+    chunks.push(novedades.value.slice(i, i + chunkSize));
+  }
+  return chunks;
+});
+</script>
+
+
+
+
+
+<template>
+  <div class="carousel-section">
+    <h3 class="section-title">Te puede interesar.</h3>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="false">
+      <div class="carousel-inner">
+        <div class="carousel-item" v-for="(chunk, chunkIndex) in chunkedNovedades" :key="chunkIndex" :class="{ active: chunkIndex === 0 }">
+          <div class="row justify-content-center">
+            <div class="col-md-4 mb-3" v-for="(item, index) in chunk" :key="index">
+              <div class="card-container slide-card">
+                <div class="card-front shadow">
+                  <div class="image-container">
+                    <img :src="item.image" class="card-image" :alt="item.name" />
+                  </div>
+                  <h3 class="card-title">{{ item.name }}</h3>
+                  <p class="card-subtitle">Encuentra el intercambio perfecto</p>
+                </div>
+                <div class="card-slide-info">
+                  <img src="/src/assets/images/logo.png" class="rotating-logo" alt="Rotating Logo" />
+                  <p class="card-text wants-item">Busco: {{ item.desiredItem }}</p>
+                  <h3 class="card-title">Trueke Disponible</h3>
+                  <p class="card-text has-item">{{ item.description }}</p>
+                  <button class="btn btn-outline-primary mt-3">Ver detalles</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon custom-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</template>
+
+
+
+
+
+<style scoped>
   
   .carousel-section {
     margin-bottom: 50px;

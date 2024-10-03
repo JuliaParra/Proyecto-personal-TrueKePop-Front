@@ -2,14 +2,16 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore'; 
 
 const email = ref('');
 const password = ref('');
 const router = useRouter();
+const authStore = useAuthStore(); 
 
 const handleLogin = async () => {
   try {
-    console.log('Datos para login:', { email: email.value, password: password.value });
+    
 
     const response = await axios.post(
       'http://localhost:8080/api/login',
@@ -28,12 +30,15 @@ const handleLogin = async () => {
     alert('Inicio de sesión exitoso!');
     console.log('Respuesta del servidor:', response.data);
 
-    // Verificar el rol del usuario y redirigir a la vista correspondiente
-    const userRole = response.data.roles; // Asumiendo que el rol está en `response.data.roles`
+    const userName = response.data.username; 
+    console.log('Nombre de usuario recibido:', userName); 
+    authStore.login(userName); 
+
+    const userRole = response.data.roles;
     if (userRole === 'ROLE_ADMIN') {
-      router.push('/Admin'); 
+      router.push('/Admin');
     } else {
-      router.push('/'); 
+      router.push('/User');
     }
   } catch (error) {
     if (error.response) {

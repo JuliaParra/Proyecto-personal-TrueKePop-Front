@@ -9,6 +9,8 @@ import TePuedeInteresar from '@/components/Categorias/TePuedeInteresar.vue';
 import TruekesMasUrgentes from '@/components/Categorias/TruekesMasUrgentes.vue';
 import AdminView from '@/views/users/AdminView.vue';
 import RegisterView from '@/views/auth/RegisterView.vue';
+import UserView from '@/views/users/UserView.vue';
+import FavoritosView from '@/views/categorias/FavoritosView.vue';
 
 
 
@@ -36,26 +38,26 @@ const routes = [
   },
 
   {
-    path: '/Directo',
-    name: 'directo',
+    path: '/directo',
+    name: 'Directo',
     component: DirectoView,
   },
 
   {
-    path: '/Novedades',
+    path: '/novedades',
     name: 'Novedades',
     component: NovedadesView,
   },
 
   
   {
-    path: '/EscuchoOfertas',
+    path: '/escuchoOfertas',
     name: 'EscuchoOfertas',
     component: EscuchoOfertasView,
   },
 
   {
-    path: '/Urgente',
+    path: '/urgente',
     name: 'Urgente',
     component: UrgenteView,
   },
@@ -77,6 +79,20 @@ const routes = [
     name: 'Admin',
     component: AdminView,
   },
+
+  {
+    path: '/User',
+    name: 'User',
+    component: UserView,
+  },
+
+  {
+    path: '/favoritos',
+    name: 'Favoritos',
+    component: FavoritosView,
+  },
+
+
 
  
  
