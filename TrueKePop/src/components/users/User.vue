@@ -1,13 +1,3 @@
-<script setup>
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/authStore';
-
-
-const route = useRoute();
-const authStore = useAuthStore();
-</script>
-
 <template>
   <nav class="navigation navbar navbar-expand-md py-1" v-if="authStore.isAuthenticated">
     <div class="container-fluid">
@@ -18,30 +8,32 @@ const authStore = useAuthStore();
         <router-link to="/novedades" class="nav-link nav-button" :class="{ active: $route.path === '/novedades' }">Novedades</router-link>
         <router-link to="/favoritos" class="nav-link nav-button" :class="{ active: $route.path === '/favoritos' }">Favoritos</router-link>
         <router-link to="/mensajes" class="nav-link nav-button" :class="{ active: $route.path === '/mensajes' }">Mensajes</router-link>
-        <router-link to="/subir-trueke" class="nav-link nav-button" :class="{ active: $route.path === '/subir-trueke' }">Subir Trueke</router-link>
+        <button class="nav-link nav-button" @click="toggleModal">Subir Trueke</button>
       </div>
       
     </div>
-  </nav>
-
-  
-
-  <nav class="navigation navbar navbar-expand-md py-1" v-else>
-    <div class="container-fluid">
-      <div class="navbar-nav">
-        <router-link to="/" class="nav-link nav-button">Home</router-link>
-        <router-link to="/login" class="nav-link nav-button">Login</router-link>
-        <router-link to="/register" class="nav-link nav-button">Register</router-link>
-      </div>
-   
     
-    </div>
+    <CrearTrueke :isVisible="showModal" @close="toggleModal" />
   </nav>
-
-  <main>
-   
-  </main>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
+import CrearTrueke from '@/components/CrearTrueke.vue';
+
+const authStore = useAuthStore();
+const showModal = ref(false);
+
+const toggleModal = () => {
+  showModal.value = !showModal.value;
+};
+</script>
+
+<style scoped>
+/* ... tus estilos existentes ... */
+</style>
+
 
 <style scoped>
 .nav-button {
@@ -59,7 +51,6 @@ const authStore = useAuthStore();
 .nav-button:hover {
   color: #ffffff; 
   background: linear-gradient(135deg, #4ecfe9, #FF7A4A); 
-  box-shadow: 0 4px 8px rgba(78, 207, 233, 0.3); 
 }
 
 .nav-button.active {

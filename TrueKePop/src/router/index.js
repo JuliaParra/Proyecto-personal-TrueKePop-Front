@@ -14,7 +14,9 @@ import FavoritosView from '@/views/categorias/FavoritosView.vue';
 
 
 
-const routes = [
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
   {
     path: '/',
     name: 'Home',
@@ -90,18 +92,11 @@ const routes = [
     path: '/favoritos',
     name: 'Favoritos',
     component: FavoritosView,
-  },
+  }
+]
+})
 
 
-
- 
- 
-];
-
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
-});
 
 export default router;
   

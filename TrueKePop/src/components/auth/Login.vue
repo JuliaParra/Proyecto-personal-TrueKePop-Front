@@ -1,56 +1,71 @@
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/authStore'; 
+import { useAuthStore } from '@/stores/authStore';
 
-const email = ref('');
-const password = ref('');
 const router = useRouter();
-const authStore = useAuthStore(); 
+const authStore = useAuthStore();
 
-const handleLogin = async () => {
+const loginEmail = ref('');
+const loginPassword = ref('');
+const formErrorMessage = ref('');
+const authErrorMessage = ref('');
+
+watch(loginEmail, () => {
+  if (formErrorMessage.value) {
+    formErrorMessage.value = '';
+  }
+});
+
+watch(loginPassword, () => {
+  if (formErrorMessage.value) {
+    formErrorMessage.value = '';
+  }
+});
+
+const clearForm = () => {
+  loginEmail.value = '';
+  loginPassword.value = '';
+  formErrorMessage.value = '';
+  authErrorMessage.value = '';
+  console.clear();
+};
+
+const submitLogin = async () => {
+  if (!loginEmail.value || !loginPassword.value) {
+    formErrorMessage.value = 'Por favor, rellena todos los campos para continuar.';
+    console.log('Formulario incompleto'); 
+    return;
+  }
+
   try {
-    
+    console.log('Enviando solicitud al backend con email:', loginEmail.value);
+    const response = await authStore.login(loginEmail.value, loginPassword.value);
+    console.log('Respuesta del backend:', response); 
 
-    const response = await axios.post(
-      'http://localhost:8080/api/login',
-      {
-        email: email.value,
-        password: password.value,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
+    if (response && Array.isArray(response.roles) && response.roles.length > 0) {
+      const userRole = response.roles[0];
+
+      if (userRole === 'ROLE_ADMIN') {
+        console.log('Redirigiendo a la vista de administrador');
+        router.push('/admindashboard');  
+      } else if (userRole === 'ROLE_USER') {
+        console.log('Redirigiendo a la vista de usuario');
+        router.push('/user');  
+      } else {
+        authErrorMessage.value = 'Rol no reconocido.';
+        console.log('Rol no reconocido:', userRole); 
+        return;
       }
-    );
 
-    alert('Inicio de sesión exitoso!');
-    console.log('Respuesta del servidor:', response.data);
-
-    const userName = response.data.username; 
-    console.log('Nombre de usuario recibido:', userName); 
-    authStore.login(userName); 
-
-    const userRole = response.data.roles;
-    if (userRole === 'ROLE_ADMIN') {
-      router.push('/Admin');
+      clearForm();
     } else {
-      router.push('/User');
+      authErrorMessage.value = 'Error: Respuesta de login no válida.';
+      console.log('Error: Respuesta de login no válida'); 
     }
   } catch (error) {
-    if (error.response) {
-      console.error('Error en la respuesta del servidor:', error.response);
-      alert('Error en el inicio de sesión: ' + (error.response.data.message || error.response.data));
-    } else if (error.request) {
-      console.error('No se recibió respuesta del servidor:', error.request);
-      alert('No se recibió respuesta del servidor.');
-    } else {
-      console.error('Error al configurar la solicitud:', error.message);
-      alert('Error: ' + error.message);
-    }
+    authErrorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
+    console.error('Error en submitLogin:', error); 
   }
 };
 </script>
@@ -59,32 +74,18 @@ const handleLogin = async () => {
   <div class="login-page d-flex justify-content-center align-items-center">
     <div class="login-card shadow-lg animate__animated animate__fadeIn"> 
       <h2 class="title mb-3"><strong>Inicia tu Trueque</strong></h2>
-      <form @submit.prevent="handleLogin">
+      <form @submit.prevent="submitLogin">
         <div class="mb-2">
-          <label for="email" class="form-label">Correo Electrónico</label>
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-            required
-            class="form-control"
-            placeholder="Ingrese su correo electrónico"
-          />
+          <label for="loginEmail" class="form-label">Correo Electrónico</label>
+          <input type="email" id="loginEmail" v-model="loginEmail" class="form-control" placeholder="Ingrese su correo electrónico" />
         </div>
         <div class="mb-2">
-          <label for="password" class="form-label">Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            class="form-control"
-            placeholder="Ingrese su contraseña"
-          />
+          <label for="loginPassword" class="form-label">Contraseña</label>
+          <input type="password" id="loginPassword" v-model="loginPassword" class="form-control" placeholder="Ingrese su contraseña" />
         </div>
         <button type="submit" class="btn btn-gradient w-100 mt-2">Iniciar Sesión</button>
       </form>
-      <p class="text-center mt-3">¿No tienes una cuenta? <router-link to="/registre" class="text-primary">Regístrate aquí</router-link></p>
+      <p class="text-center mt-3">¿No tienes una cuenta? <router-link to="/register" class="text-primary">Regístrate aquí</router-link></p>
     </div>
   </div>
 </template>

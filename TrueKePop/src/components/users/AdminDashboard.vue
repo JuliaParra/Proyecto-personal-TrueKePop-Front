@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <!-- Opciones adicionales si las necesitas -->
+              <!-- Aquí puedes añadir más opciones de navegación si es necesario -->
             </li>
           </ul>
         </div>
@@ -76,7 +76,7 @@ const reports = ref([]);
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/users', {
+    const response = await axios.get('http://localhost:8080/api/users', {
       withCredentials: true, 
     });
     users.value = response.data;
@@ -85,20 +85,20 @@ const fetchUsers = async () => {
   }
 };
 
-const bloquearUsuario = async (userId) => {
-  const user = users.value.find(user => user.id === userId);
-  if (user) {
-    try {
-      await axios.post(`http://localhost:8080/users${userId}/block`, {}, {
-        withCredentials: true,
-      });
-      alert(`Usuario ${user.email} bloqueado.`);
-      users.value = users.value.filter(user => user.id !== userId);
-    } catch (error) {
-      console.error('Error al bloquear el usuario:', error);
-    }
-  }
-};
+// const bloquearUsuario = async (userId) => {
+//   const user = users.value.find(user => user.id === userId);
+//   if (user) {
+//     try {
+//       await axios.post(`http://localhost:8080/users/${userId}/block`, {}, {
+//         withCredentials: true,
+//       });
+//       alert(`Usuario ${user.email} bloqueado.`);
+//       users.value = users.value.filter(user => user.id !== userId);
+//     } catch (error) {
+//       console.error('Error al bloquear el usuario:', error);
+//     }
+//   }
+// };
 
 onMounted(() => {
   fetchUsers();
