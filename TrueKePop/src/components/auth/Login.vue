@@ -32,42 +32,46 @@ const clearForm = () => {
 };
 
 const submitLogin = async () => {
-  if (!loginEmail.value || !loginPassword.value) {
-    formErrorMessage.value = 'Por favor, rellena todos los campos para continuar.';
-    console.log('Formulario incompleto'); 
-    return;
-  }
-
-  try {
-    console.log('Enviando solicitud al backend con email:', loginEmail.value);
-    const response = await authStore.login(loginEmail.value, loginPassword.value);
-    console.log('Respuesta del backend:', response); 
-
-    if (response && Array.isArray(response.roles) && response.roles.length > 0) {
-      const userRole = response.roles[0];
-
-      if (userRole === 'ROLE_ADMIN') {
-        console.log('Redirigiendo a la vista de administrador');
-        router.push('/admindashboard');  
-      } else if (userRole === 'ROLE_USER') {
-        console.log('Redirigiendo a la vista de usuario');
-        router.push('/user');  
-      } else {
-        authErrorMessage.value = 'Rol no reconocido.';
-        console.log('Rol no reconocido:', userRole); 
+    if (!loginEmail.value || !loginPassword.value) {
+        formErrorMessage.value = 'Por favor, rellena todos los campos para continuar.';
+        console.log('Formulario incompleto');
         return;
-      }
-
-      clearForm();
-    } else {
-      authErrorMessage.value = 'Error: Respuesta de login no válida.';
-      console.log('Error: Respuesta de login no válida'); 
     }
-  } catch (error) {
-    authErrorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
-    console.error('Error en submitLogin:', error); 
-  }
+
+    try {
+        console.log('Enviando solicitud al backend con email:', loginEmail.value);
+        
+        // Realizar la solicitud al backend
+        const response = await authStore.login(loginEmail.value, loginPassword.value);
+        console.log('Respuesta del backend:', response); 
+
+        if (response && response.message === "Logged in successfully") {
+            const roles = response.roles; // Asegúrate de que roles sea un array
+            console.log('Roles recibidos:', roles); // Aquí es donde se añade el log
+
+            if (roles.includes('ROLE_ADMIN')) {
+                console.log('Redirigiendo a la vista de administrador');
+                router.push('/Admindashboard');  
+            } else if (roles.includes('ROLE_USER')) {
+                console.log('Redirigiendo a la vista de usuario');
+                router.push('/User');  
+            } else {
+                authErrorMessage.value = 'Rol no reconocido.';
+                console.log('Rol no reconocido:', roles); 
+                return;
+            }
+
+            clearForm();
+        } else {
+            authErrorMessage.value = 'Error: Respuesta de login no válida.';
+            console.log('Error: Respuesta de login no válida'); 
+        }
+    } catch (error) {
+        authErrorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
+        console.error('Error en submitLogin:', error); 
+    }
 };
+
 </script>
 
 <template>
@@ -84,11 +88,15 @@ const submitLogin = async () => {
           <input type="password" id="loginPassword" v-model="loginPassword" class="form-control" placeholder="Ingrese su contraseña" />
         </div>
         <button type="submit" class="btn btn-gradient w-100 mt-2">Iniciar Sesión</button>
+        <p class="text-danger">{{ formErrorMessage }}</p> <!-- Mensaje de error de formulario -->
+        <p class="text-danger">{{ authErrorMessage }}</p> <!-- Mensaje de error de autenticación -->
       </form>
       <p class="text-center mt-3">¿No tienes una cuenta? <router-link to="/register" class="text-primary">Regístrate aquí</router-link></p>
     </div>
   </div>
 </template>
+
+
 
 <style scoped>
 

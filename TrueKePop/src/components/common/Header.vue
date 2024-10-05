@@ -50,7 +50,7 @@ const toggleLogoutMenu = () => {
         </div>
         <div v-else>
           <router-link to="/login" class="btn btn-outline login-button me-3">Inicio sesión</router-link>
-          <router-link to="/registre" class="btn btn-outline-warning sell-button">Trueke</router-link>
+          <router-link to="/register" class="btn btn-outline-warning sell-button">Trueke</router-link>
         </div>
       </div>
     </div>

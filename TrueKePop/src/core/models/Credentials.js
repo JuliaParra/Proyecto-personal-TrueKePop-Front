@@ -1,9 +1,4 @@
 export default class Credentials {
-
-
-    email
-    password
-    
     constructor(email, password) {
         this.email = email;
         this.password = password;
@@ -17,3 +12,4 @@ export default class Credentials {
         return this.password;
     }
 }
+    
