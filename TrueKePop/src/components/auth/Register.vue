@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-const username = ref(''); // Agregar referencia para nombre de usuario
+const username = ref(''); 
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
@@ -28,7 +28,7 @@ const handleRegister = async () => {
 });
     alert(response.data);
 
-    // Redirigir al login después del registro exitoso
+  
     router.push('/login');
   } catch (error) {
     if (error.response) {

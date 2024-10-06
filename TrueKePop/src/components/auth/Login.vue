@@ -10,7 +10,7 @@ const loginPassword = ref('');
 const formErrorMessage = ref('');
 const authErrorMessage = ref('');
 
-// Función para limpiar el formulario
+
 const clearForm = () => {
   loginEmail.value = '';
   loginPassword.value = '';
@@ -18,16 +18,16 @@ const clearForm = () => {
   authErrorMessage.value = '';
 };
 
-// Función para manejar el inicio de sesión
+
 const submitLogin = async () => {
-    // Validar que los campos no estén vacíos
+   
     if (!loginEmail.value || !loginPassword.value) {
         formErrorMessage.value = 'Por favor, rellena todos los campos para continuar.';
         return;
     }
 
     try {
-        // Enviar solicitud de inicio de sesión al backend
+        
         const response = await axios.post('http://localhost:8080/api/login', {
             email: loginEmail.value,
             password: loginPassword.value,
@@ -38,13 +38,13 @@ const submitLogin = async () => {
             }
         });
 
-        // Comprobar si la respuesta es válida
-        if (response.status === 200) { // Verificar que la respuesta sea 200
-            clearForm(); // Limpiar el formulario
+       
+        if (response.status === 200) { 
+            clearForm(); 
 
-            const roles = response.data.roles; // Asumimos que los roles están en response.data.roles
+            const roles = response.data.roles; 
             if (roles && roles.length > 0) {
-                // Redirigir según el rol del usuario
+                
                 if (roles.includes('ROLE_ADMIN')) {
                     router.push('/Admindashboard');  
                 } else if (roles.includes('ROLE_USER')) {
@@ -59,7 +59,7 @@ const submitLogin = async () => {
             authErrorMessage.value = 'Error: Respuesta de login no válida.';
         }
     } catch (error) {
-        // Manejar cualquier error en la solicitud
+       
         if (error.response && error.response.data) {
             authErrorMessage.value = error.response.data.message || 'Error en el inicio de sesión.';
         } else {
@@ -84,8 +84,8 @@ const submitLogin = async () => {
           <input type="password" id="loginPassword" v-model="loginPassword" class="form-control" placeholder="Ingrese su contraseña" />
         </div>
         <button type="submit" class="btn btn-gradient w-100 mt-2">Iniciar Sesión</button>
-        <p class="text-danger">{{ formErrorMessage }}</p> <!-- Mensaje de error de formulario -->
-        <p class="text-danger">{{ authErrorMessage }}</p> <!-- Mensaje de error de autenticación -->
+        <p class="text-danger">{{ formErrorMessage }}</p> 
+        <p class="text-danger">{{ authErrorMessage }}</p> 
       </form>
       <p class="text-center mt-3">¿No tienes una cuenta? <router-link to="/register" class="text-primary">Regístrate aquí</router-link></p>
     </div>

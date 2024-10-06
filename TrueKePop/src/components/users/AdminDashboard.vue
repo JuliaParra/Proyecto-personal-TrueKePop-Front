@@ -1,75 +1,41 @@
-
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const truekes = ref([]);
+const messages = ref([]);
 const searchId = ref('');
 const router = useRouter();
 
-
 const fetchTruekes = async () => {
+  // Lógica para obtener truekes
+};
+
+const fetchMessages = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/trueke', {
+    const response = await axios.get('http://localhost:8080/api/messages', {
       withCredentials: true,
     });
-    truekes.value = response.data;
+    messages.value = response.data;
   } catch (error) {
-    console.error('Error al obtener la lista de truekes:', error);
+    console.error('Error al obtener los mensajes:', error);
   }
 };
 
-
-const buscarTruekePorId = async () => {
-  if (!searchId.value) {
-    alert('Por favor, introduce un ID válido.');
-    return;
-  }
+const eliminarMensaje = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:8080/api/trueke/${searchId.value}`, {
-      withCredentials: true,
-    });
-    truekes.value = [response.data];
+    await axios.delete(`http://localhost:8080/api/messages/${id}`);
+    messages.value = messages.value.filter(message => message.id !== id);
+    alert('Mensaje eliminado correctamente.');
   } catch (error) {
-    console.error('Error al buscar el trueke por ID:', error);
-    alert('No se encontró ningún trueke con ese ID.');
+    console.error('Error al eliminar el mensaje:', error);
   }
 };
-
-
-const eliminarTrueke = async (truekeId) => {
-  try {
-    await axios.delete(`http://localhost:8080/api/trueke/${truekeId}`, {
-      withCredentials: true,
-    });
-    alert('Trueke eliminado.');
-    truekes.value = truekes.value.filter((trueke) => trueke.id !== truekeId);
-  } catch (error) {
-    console.error('Error al eliminar el trueke:', error);
-  }
-};
-
-
-const logout = async () => {
-  try {
-    await axios.post('http://localhost:8080/api/logout', {}, {
-      withCredentials: true,
-    });
-    alert('Sesión cerrada correctamente.');
-  } catch (error) {
-    console.error('Error al cerrar sesión:', error);
-    ;
-  } finally {
-    
-    router.push('/login');
-  }
-};
-
 
 onMounted(() => {
   fetchTruekes();
+  fetchMessages();
 });
 </script>
 
@@ -102,21 +68,10 @@ onMounted(() => {
     </nav>
 
     <div class="container mt-4">
-     
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Lista de Truekes</h2>
-        <div class="input-group" style="width: 300px;">
-          <input 
-            type="number" 
-            class="form-control" 
-            placeholder="Buscar por ID" 
-            v-model="searchId"
-          >
-          <button class="btn btn-primary" @click="buscarTruekePorId">Buscar</button>
-        </div>
       </div>
 
-      
       <div class="mb-5">
         <table class="table table-striped table-hover">
           <thead>
@@ -157,11 +112,19 @@ onMounted(() => {
           </tbody>
         </table>
       </div>
+
+      <div class="mb-5">
+        <h2>Mensajes Recibidos</h2>
+        <ul>
+          <li v-for="message in messages" :key="message.id">
+            <strong>{{ message.ownerName }}</strong>: {{ message.content }}
+            <button @click="eliminarMensaje(message.id)">🗑️ Borrar</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
-
-
 
 <style scoped>
 .admin-dashboard {

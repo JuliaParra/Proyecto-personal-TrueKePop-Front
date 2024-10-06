@@ -2,7 +2,7 @@
   <div class="container-fluid px-0">
     <div class="row mx-0">
       <div class="col-12 px-0">
-        <router-link to="/registre" class="banner-link">
+        <router-link to="/register" class="banner-link">
           <div class="banner-container">
             <div class="banner shadow-lg">
               <img src="@/assets/images/Banner.png" alt="Banner de TrueKePop" class="img-fluid banner-image" />

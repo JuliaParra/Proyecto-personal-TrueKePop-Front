@@ -16,50 +16,65 @@
             <h5 class="item-title">{{ item.name }}</h5>
             <p class="item-location"><i class="fas fa-map-marker-alt"></i> {{ item.location }}</p>
             <p class="item-description">{{ item.description }}</p>
-            <div class="item-footer">
-              <button class="btn btn-favorite" @click.stop="likeItem(item)">
-                <i class="fas fa-heart"></i> Favorito
-              </button>
-              <button class="btn btn-message">
-                <i class="fas fa-comment"></i> Mensaje
-              </button>
-            </div>
+            <p class="item-owner"> {{ item.ownerName }}</p> <!-- Cambiado aquí -->
           </div>
+        </div>
+        <div class="item-footer">
+          <div class="like-container">
+            <button class="btn btn-favorite" @click.stop="likeItem(item)">
+              <span class="thumbs-up-icon">👍</span>
+            </button>
+          </div>
+          <button class="btn btn-info" @click.stop="openMessagePopup(item)">
+            👁️
+          </button>
         </div>
       </div>
     </div>
-    <Modal v-if="trueke" :trueke="trueke" @close="closeModal" />
+    <MessagePopup v-if="isPopupOpen" :currentItem="currentItem" @close="closeMessagePopup" />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Modal from '../Modal.vue';
+import MessagePopup from '../common/MessagePopup.vue';
 
 const truekes = ref([]);
-const trueke = ref(null);
+const currentItem = ref(null); 
+const isPopupOpen = ref(false); 
 
 const fetchNovedades = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/trueke/urgente'); // Ajusta el endpoint según sea necesario
-    truekes.value = response.data;
+    const response = await axios.get('http://localhost:8080/api/trueke/urgente'); 
+    truekes.value = response.data.map(item => ({
+      ...item,
+      ownerName: item.ownerName 
+    }));
   } catch (error) {
     console.error('Error al cargar los truekes:', error);
   }
 };
 
 const showDetails = (item) => {
-  trueke.value = item; // Muestra la información del trueke en el modal
+  trueke.value = item; 
 };
 
 const closeModal = () => {
-  trueke.value = null; // Cierra el modal
+  trueke.value = null; 
 };
 
 const likeItem = (item) => {
-  // Lógica para dar 'like' al trueke
   console.log('Liked item:', item);
+};
+
+const openMessagePopup = (item) => {
+  currentItem.value = item; 
+  isPopupOpen.value = true; 
+};
+
+const closeMessagePopup = () => {
+  isPopupOpen.value = false; 
 };
 
 onMounted(() => {
@@ -70,116 +85,118 @@ onMounted(() => {
 <style scoped>
 .list-container {
   padding: 20px;
+  background-color: #ffffff; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .section-title {
   font-size: 2rem;
   margin-bottom: 20px;
   font-weight: bold;
-  color: #007bff; /* Color azul */
+  color: #40caca; 
 }
 
 .list-group {
-  border-radius: 5px;
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
+  gap: 30px; 
 }
 
 .list-group-item {
   display: flex;
-  align-items: center;
+  flex-direction: column; 
   padding: 15px;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #48c4b9ab; 
+  border-radius: 20px;
+  background-color: #fff; 
+  transition: box-shadow 0.3s ease; 
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
-  border-radius: 10px;
-  background-color: #f8f9fa; /* Fondo claro */
 }
 
-.neon-effect {
-  animation: neon 1.5s infinite alternate;
-  box-shadow: 0 0 5px #00f, 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00b, 0 0 40px #00b;
-}
-
-@keyframes neon {
-  from {
-    text-shadow: 0 0 5px #00f, 0 0 10px #00f;
-  }
-  to {
-    text-shadow: 0 0 20px #00f, 0 0 30px #00f;
-  }
-}
-
-.list-item-content {
-  display: flex;
-  width: 100%;
+.list-group-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 .image-container {
-  width: 150px; /* Ancho más grande para la imagen */
-  height: 150px; /* Altura más grande para la imagen */
-  border-radius: 10px;
+  width: 100%; 
+  height: 200px; 
+  border-radius: 10px 10px 0 0; 
   overflow: hidden;
-  margin-right: 15px; /* Espacio entre imagen y contenido */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px; 
 }
 
 .list-item-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.2s ease;
-}
-
-.list-item-image:hover {
-  transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+  object-fit: cover; 
 }
 
 .item-info {
-  flex: 1; /* Toma todo el ancho restante */
+  flex: 1; 
 }
 
 .item-title {
-  font-size: 1.25rem;
+  font-size: 1.5rem; 
   margin: 0;
-  color: #333; /* Color del título */
+  color: #333; 
 }
 
 .item-location {
   font-size: 0.9rem;
-  color: #007bff; /* Color azul para la ubicación */
+  color: #ffae00; 
 }
 
 .item-description {
   font-size: 0.9rem;
   margin: 5px 0;
-  color: #555; /* Color de la descripción */
+  color: #4d6e70; 
+}
+
+.item-owner {
+  font-size: 0.8rem; 
+  color: #18b2c7; 
+  margin-top: 5px; 
 }
 
 .item-footer {
   display: flex;
   justify-content: space-between;
+  align-items: center; 
   margin-top: 10px;
 }
 
 .btn {
   border: none;
-  background-color: transparent;
-  color: #007bff; /* Color azul */
+  border-radius: 5px; 
+  width: 50px; 
+  height: 50px; 
   cursor: pointer;
-  transition: color 0.2s;
-}
-
-.btn:hover {
-  color: #0056b3; /* Color más oscuro al pasar el mouse */
+  transition: background-color 0.2s, transform 0.3s; 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
 }
 
 .btn-favorite {
-  background-color: #ff7b00; /* Color naranja */
-  color: #fff; /* Texto blanco */
-  border-radius: 5px;
-  padding: 5px 10px;
+  background-color: transparent; 
+  font-size: 140%;
 }
 
 .btn-favorite:hover {
-  background-color: #e68a00; /* Color naranja más oscuro al pasar el mouse */
+  transform: scale(2.1); 
+}
+
+.btn-info {
+  background-color: transparent; 
+  color: #f77a05; 
+  font-size: 1.8rem; 
+  width: 50px; 
+  height: 50px; 
+  cursor: pointer; 
+}
+
+.btn-info:hover {
+  transform: scale(1.6); 
+  color: #40caca; 
 }
 </style>

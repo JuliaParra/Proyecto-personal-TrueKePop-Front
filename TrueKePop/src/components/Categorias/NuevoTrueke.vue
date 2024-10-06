@@ -1,7 +1,7 @@
 <template>
-  <div class="nuevo-trueke-container">
-    <h2>Subir Nuevo Objeto para Trueke</h2>
-    <form @submit.prevent="submitForm">
+  <div class="form-container">
+    <!-- Formulario centrado -->
+    <form class="blurred-form" @submit.prevent="submitForm">
       <!-- Campo para el nombre del objeto -->
       <div class="form-group">
         <label for="name">Nombre del Objeto:</label>
@@ -49,7 +49,7 @@
         <input type="file" id="image" @change="handleImageUpload" accept="image/*" required />
       </div>
 
-      <button type="submit" class="submit-button">Crear Trueke</button>
+      <button type="submit" class="submit-btn">Crear Trueke</button>
     </form>
   </div>
 </template>
@@ -57,12 +57,9 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router'; // Importa el router
-
-const router = useRouter(); // Crea una instancia del router
 
 const truekeData = ref({
-  name: '', 
+  name: '',
   description: '',
   location: '',
   desiredItem: '',
@@ -92,17 +89,12 @@ const submitForm = async () => {
     formData.append('image', truekeData.value.image);
 
     await axios.post('http://localhost:8080/api/trueke', formData, {
-    headers: {
+      headers: {
         'Content-Type': 'multipart/form-data',
-    },
-});
+      },
+    });
 
     alert('Trueke creado con éxito!');
-
-    // Redirigir a la página de tus truekes
-    router.push('/tusTruekes'); // Redirige a la lista de truekes
-
-    // Reiniciar el formulario después de la creación exitosa
     truekeData.value = {
       name: '',
       description: '',
@@ -112,7 +104,6 @@ const submitForm = async () => {
       categoryId: null,
       image: null,
     };
-    document.getElementById('image').value = ''; // Limpia el campo de archivo
   } catch (error) {
     console.error('Error al crear el trueke:', error);
     alert('Hubo un problema al crear el trueke.');
@@ -121,57 +112,71 @@ const submitForm = async () => {
 </script>
 
 <style scoped>
-.nuevo-trueke-container {
-  width: 100%; /* Ocupa todo el ancho */
-  max-width: 1200px; /* Limita el ancho máximo */
-  margin: 20px auto; /* Centramos el formulario y agregamos un margen superior e inferior */
-  padding: 20px;
-  background: linear-gradient(135deg, #007bff, #ff7a4a);
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+/* Fondo desenfocado */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #e0e0e0, #ffffff); /* Fondo degradado */
+  backdrop-filter: blur(5px); /* Efecto desenfoque */
+}
+
+/* Formulario centrado y elegante */
+.blurred-form {
+  width: 90%;
+  max-width: 600px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de "popup" */
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
   border: 2px solid #007bff;
-  border-radius: 5px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo más opaco */
   transition: all 0.3s ease;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   border-color: #ff7a4a;
   box-shadow: 0 0 8px rgba(255, 122, 74, 0.5);
 }
 
-.submit-button {
+button.submit-btn {
   padding: 15px 30px;
   background: linear-gradient(135deg, #007bff, #ff7a4a);
   color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
   font-size: 1.2rem;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.submit-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-button:focus {
-  outline: none;
+button.submit-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 </style>
