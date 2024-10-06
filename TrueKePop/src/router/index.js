@@ -81,27 +81,6 @@ const router = createRouter({
   ]
 });
 
-// Protege las rutas con `beforeEach`
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
-
-  // Verifica si la ruta requiere autenticación
-  if (to.meta.requiresAuth) {
-    // Verifica si el usuario está autenticado
-    if (!authStore.isAuthenticated) {
-      next('/login'); // Redirige al login si no está autenticado
-    } else {
-      // Verifica el rol requerido para la ruta
-      const userRole = authStore.user?.roles[0];
-      if (to.meta.requiredRole && userRole !== to.meta.requiredRole) {
-        next('/'); // Redirige a Home si no tiene el rol adecuado
-      } else {
-        next(); // Permite el acceso si cumple con los requisitos
-      }
-    }
-  } else {
-    next(); // Permite el acceso si la ruta no requiere autenticación
-  }
-});
+ 
 
 export default router;

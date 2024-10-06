@@ -1,77 +1,73 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/authStore';
+import axios from 'axios';
 
 const router = useRouter();
-const authStore = useAuthStore();
 
 const loginEmail = ref('');
 const loginPassword = ref('');
 const formErrorMessage = ref('');
 const authErrorMessage = ref('');
 
-watch(loginEmail, () => {
-  if (formErrorMessage.value) {
-    formErrorMessage.value = '';
-  }
-});
-
-watch(loginPassword, () => {
-  if (formErrorMessage.value) {
-    formErrorMessage.value = '';
-  }
-});
-
+// Función para limpiar el formulario
 const clearForm = () => {
   loginEmail.value = '';
   loginPassword.value = '';
   formErrorMessage.value = '';
   authErrorMessage.value = '';
-  console.clear();
 };
 
+// Función para manejar el inicio de sesión
 const submitLogin = async () => {
+    // Validar que los campos no estén vacíos
     if (!loginEmail.value || !loginPassword.value) {
         formErrorMessage.value = 'Por favor, rellena todos los campos para continuar.';
-        console.log('Formulario incompleto');
         return;
     }
 
     try {
-        console.log('Enviando solicitud al backend con email:', loginEmail.value);
-        
-        // Realizar la solicitud al backend
-        const response = await authStore.login(loginEmail.value, loginPassword.value);
-        console.log('Respuesta del backend:', response); 
-
-        if (response && response.message === "Logged in successfully") {
-            const roles = response.roles; // Asegúrate de que roles sea un array
-            console.log('Roles recibidos:', roles); // Aquí es donde se añade el log
-
-            if (roles.includes('ROLE_ADMIN')) {
-                console.log('Redirigiendo a la vista de administrador');
-                router.push('/Admindashboard');  
-            } else if (roles.includes('ROLE_USER')) {
-                console.log('Redirigiendo a la vista de usuario');
-                router.push('/User');  
-            } else {
-                authErrorMessage.value = 'Rol no reconocido.';
-                console.log('Rol no reconocido:', roles); 
-                return;
+        // Enviar solicitud de inicio de sesión al backend
+        const response = await axios.post('http://localhost:8080/api/login', {
+            email: loginEmail.value,
+            password: loginPassword.value,
+        }, {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/json",
             }
+        });
 
-            clearForm();
+        // Comprobar si la respuesta es válida
+        if (response.status === 200) { // Verificar que la respuesta sea 200
+            clearForm(); // Limpiar el formulario
+
+            const roles = response.data.roles; // Asumimos que los roles están en response.data.roles
+            if (roles && roles.length > 0) {
+                // Redirigir según el rol del usuario
+                if (roles.includes('ROLE_ADMIN')) {
+                    router.push('/Admindashboard');  
+                } else if (roles.includes('ROLE_USER')) {
+                    router.push('/User');  
+                } else {
+                    authErrorMessage.value = 'Rol no reconocido.';
+                }
+            } else {
+                authErrorMessage.value = 'No se encontraron roles para el usuario.';
+            }
         } else {
             authErrorMessage.value = 'Error: Respuesta de login no válida.';
-            console.log('Error: Respuesta de login no válida'); 
         }
     } catch (error) {
-        authErrorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
-        console.error('Error en submitLogin:', error); 
+        // Manejar cualquier error en la solicitud
+        if (error.response && error.response.data) {
+            authErrorMessage.value = error.response.data.message || 'Error en el inicio de sesión.';
+        } else {
+            authErrorMessage.value = 'Error en el inicio de sesión. Por favor, verifica tus credenciales.';
+        }
+        console.error('Error en submitLogin:', error);
     }
 };
-
 </script>
 
 <template>
@@ -95,7 +91,6 @@ const submitLogin = async () => {
     </div>
   </div>
 </template>
-
 
 
 <style scoped>

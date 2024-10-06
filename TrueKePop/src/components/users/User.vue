@@ -30,9 +30,7 @@ const toggleModal = () => {
 };
 </script>
 
-<style scoped>
-/* ... tus estilos existentes ... */
-</style>
+
 
 
 <style scoped>

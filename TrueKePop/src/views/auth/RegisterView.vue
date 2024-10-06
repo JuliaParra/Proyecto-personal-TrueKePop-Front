@@ -1,5 +1,5 @@
 <script setup>
-import Registre from '@/components/auth/Registre.vue';
+import Register from '@/components/auth/Register.vue';
 
 
 
@@ -8,6 +8,6 @@ import Registre from '@/components/auth/Registre.vue';
 
 <template>
     <div class="registre-container">
-      <Registre />
+      <Register />
     </div>
   </template>

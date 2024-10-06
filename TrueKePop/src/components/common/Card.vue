@@ -9,6 +9,7 @@ const novedades = ref([]);
 const fetchNovedades = async () => {
   try {
     const response = await axios.get('/truekes');
+    console.log(response.data); // Verifica que la estructura sea la esperada
     novedades.value = response.data;
   } catch (error) {
     console.error('Error al cargar los truekes:', error.response ? error.response.data : error.message);

@@ -1,28 +1,27 @@
-
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
-
-
 const novedades = ref([]);
 
+// Función para obtener los truekes del backend
 const fetchNovedades = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/truekes');
-    novedades.value = response.data;
+    const response = await axios.get('http://localhost:8080/api/trueke/urgente'); // Asegúrate de que este endpoint sea correcto
+    novedades.value = response.data; // Asigna los truekes a la referencia
   } catch (error) {
     console.error('Error al cargar los truekes:', error.response ? error.response.data : error.message);
   }
 };
 
+// Llama a la función para cargar los truekes al montar el componente
 onMounted(() => {
   fetchNovedades();
 });
 
-
+// Computed para dividir los truekes en chunks para el carrusel
 const chunkedNovedades = computed(() => {
-  const chunkSize = 3;
+  const chunkSize = 3; // Número de cards por slide
   const chunks = [];
   for (let i = 0; i < novedades.value.length; i += chunkSize) {
     chunks.push(novedades.value.slice(i, i + chunkSize));
@@ -30,11 +29,6 @@ const chunkedNovedades = computed(() => {
   return chunks;
 });
 </script>
-
-
-
-
-
 
 <template>
   <div class="carousel-section">
@@ -58,7 +52,7 @@ const chunkedNovedades = computed(() => {
              :key="chunkIndex" 
              :class="{ active: chunkIndex === 0 }">
           <div class="row justify-content-center">
-            <div class="col-md-4 mb-3" v-for="(item, index) in chunk" :key="index">
+            <div class="col-md-4 mb-3" v-for="(item, index) in chunk" :key="item.id">
               <div class="card-container slide-card">
                 <div class="card-front shadow">
                   <div class="image-container">
@@ -92,159 +86,142 @@ const chunkedNovedades = computed(() => {
   </div>
 </template>
 
-
-
 <style scoped>
+.carousel-section {
+  margin-bottom: 50px;
+  text-align: left;
+  margin: 6%;
+}
 
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.3rem;
+  color: rgb(0, 0, 0);
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel-control-prev-icon.custom-prev-icon,
+.carousel-control-next-icon.custom-next-icon {
+  background-color: orange;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.carousel-inner {
+  text-align: center;
+}
+
+.card-container {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.card-front {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: #fff;
+}
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-slide-info {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: left 2s ease;
+}
+
+.card-container:hover .card-slide-info {
+  left: 0;
+}
+
+.rotating-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  animation: rotateLogo 7s infinite;
+}
+
+.card-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #333;
+  text-align: center;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: #ff7b00;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.card-text.has-item {
+  font-size: 1.1rem;
+  color: #ff7b00;
+  margin-bottom: 15px;
+}
+
+.card-text.wants-item {
+  font-size: 1.1rem;
+  color: rgb(34, 207, 207);
+}
+
+.btn-outline-primary {
+  border: 1px solid rgb(34, 207, 207);
+  color: rgb(34, 207, 207);
+  background-color: transparent;
+  border-radius: 30px;
+  transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #ffb65d;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
 </style>
-
-  
-  <style scoped>
-  .carousel-section {
-    margin-bottom: 50px;
-    text-align: left;
-    margin: 6%;
-  }
-  
-  .section-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.3rem;
-    color: rgb(0, 0, 0);
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 8%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .carousel-control-prev-icon.custom-prev-icon,
-  .carousel-control-next-icon.custom-next-icon {
-    background-color: orange;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-  }
-  
-  .carousel-control-prev {
-    left: -2%;
-  }
-  
-  .carousel-control-next {
-    right: -2%;
-  }
-  
-  .carousel-inner {
-    text-align: center;
-  }
-  
-  .card-container {
-    position: relative;
-    width: 100%;
-    max-width: 350px;
-    height: 300px;
-    overflow: hidden;
-    border-radius: 20px;
-    background-color: #f8f9fa;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    margin: 0 auto;
-  }
-  
-  .card-front {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    background: #fff;
-  }
-  
-  .image-container {
-    width: 100%;
-    height: 200px;
-    border-radius: 15px;
-    overflow: hidden;
-    margin-bottom: 15px;
-  }
-  
-  .card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .card-slide-info {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: left 2s ease;
-  }
-  
-  .card-container:hover .card-slide-info {
-    left: 0;
-  }
-  
-  .rotating-logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    object-fit: contain;
-    margin-bottom: 15px;
-    animation: rotateLogo 7s infinite;
-  }
-  
-  .card-title {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 1.4rem;
-    color: #333;
-    text-align: center;
-  }
-  
-  .card-subtitle {
-    font-size: 0.9rem;
-    color: #ff7b00;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .card-text.has-item {
-    font-size: 1.1rem;
-    color: #ff7b00;
-    margin-bottom: 15px;
-  }
-  
-  .card-text.wants-item {
-    font-size: 1.1rem;
-    color: rgb(34, 207, 207);
-  }
-  
-  .btn-outline-primary {
-    border: 1px solid rgb(34, 207, 207);
-    color: rgb(34, 207, 207);
-    background-color: transparent;
-    border-radius: 30px;
-    transition: background-color 0.8s ease, color 0.8s ease;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #ffb65d;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-    transition: background-color 0.8s ease, color 0.8s ease;
-  }
-  </style>
-  
