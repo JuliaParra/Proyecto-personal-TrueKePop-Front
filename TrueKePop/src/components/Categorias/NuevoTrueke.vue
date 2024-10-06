@@ -57,6 +57,9 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router'; // Importa el router
+
+const router = useRouter(); // Crea una instancia del router
 
 const truekeData = ref({
   name: '', 
@@ -79,7 +82,6 @@ const handleImageUpload = (event) => {
 
 const submitForm = async () => {
   try {
-    console.log('Datos enviados:', truekeData.value); // Verifica los datos antes de enviar
     const formData = new FormData();
     formData.append('name', truekeData.value.name);
     formData.append('description', truekeData.value.description);
@@ -90,12 +92,16 @@ const submitForm = async () => {
     formData.append('image', truekeData.value.image);
 
     await axios.post('http://localhost:8080/api/trueke', formData, {
-      headers: {
+    headers: {
         'Content-Type': 'multipart/form-data',
-      },
-    });
+    },
+});
 
     alert('Trueke creado con éxito!');
+
+    // Redirigir a la página de tus truekes
+    router.push('/tusTruekes'); // Redirige a la lista de truekes
+
     // Reiniciar el formulario después de la creación exitosa
     truekeData.value = {
       name: '',
@@ -115,11 +121,6 @@ const submitForm = async () => {
 </script>
 
 <style scoped>
-/* Tu código CSS permanece igual */
-</style>
-
-
-<style scoped>
 .nuevo-trueke-container {
   width: 100%; /* Ocupa todo el ancho */
   max-width: 1200px; /* Limita el ancho máximo */
@@ -128,13 +129,6 @@ const submitForm = async () => {
   background: linear-gradient(135deg, #007bff, #ff7a4a);
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.trueke-form {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {

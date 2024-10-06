@@ -6,13 +6,13 @@ import NovedadesView from '@/views/categorias/NovedadesView.vue';
 import EscuchoOfertasView from '@/views/categorias/EscuchoOfertasView.vue';
 import UrgenteView from '@/views/categorias/UrgenteView.vue';
 import TePuedeInteresar from '@/components/Categorias/TePuedeInteresar.vue';
-import TruekesMasUrgentes from '@/components/Categorias/TruekesMasUrgentes.vue';
 import AdminView from '@/views/users/AdminView.vue';
 import RegisterView from '@/views/auth/RegisterView.vue';
 import UserView from '@/views/users/UserView.vue';
 import FavoritosView from '@/views/categorias/FavoritosView.vue';
-
 import NuevoTruekeView from '@/views/categorias/NuevoTruekeView.vue';
+
+import TusTruekesView from '@/views/users/TusTruekesView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,6 +84,12 @@ const router = createRouter({
       path: '/nuevotrueke',
       name: 'NuevoTrueke',
       component: NuevoTruekeView,
+    },
+
+    {
+      path: '/tusTruekes',
+      name: 'TusTruekes',
+      component: TusTruekesView,
     },
   ]
 });
