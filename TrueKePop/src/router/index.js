@@ -11,7 +11,8 @@ import AdminView from '@/views/users/AdminView.vue';
 import RegisterView from '@/views/auth/RegisterView.vue';
 import UserView from '@/views/users/UserView.vue';
 import FavoritosView from '@/views/categorias/FavoritosView.vue';
-import { useAuthStore } from '@/stores/authStore';
+
+import NuevoTruekeView from '@/views/categorias/NuevoTruekeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,9 +58,9 @@ const router = createRouter({
       component: TePuedeInteresar,
     },
     {
-      path: '/truekesmasurgentes',
-      name: 'TruekeMasUrgentes',
-      component: TruekesMasUrgentes,
+      path: '/urgente',
+      name: 'Urgente',
+      component: UrgenteView,
     },
     {
       path: '/Admindashboard',
@@ -77,7 +78,13 @@ const router = createRouter({
       path: '/favoritos',
       name: 'Favoritos',
       component: FavoritosView,
-    }
+    },
+
+    {
+      path: '/nuevotrueke',
+      name: 'NuevoTrueke',
+      component: NuevoTruekeView,
+    },
   ]
 });
 

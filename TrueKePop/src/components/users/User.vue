@@ -13,14 +13,14 @@
       
     </div>
     
-    <CrearTrueke :isVisible="showModal" @close="toggleModal" />
+    <NuevoTrueke :isVisible="showModal" @close="toggleModal" />
   </nav>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
-import CrearTrueke from '@/components/CrearTrueke.vue';
+import NuevoTrueke from '../Categorias/NuevoTrueke.vue';
 
 const authStore = useAuthStore();
 const showModal = ref(false);

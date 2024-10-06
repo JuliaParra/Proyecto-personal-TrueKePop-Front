@@ -1,15 +1,14 @@
 <script setup>
 
-import EscuchoOferta from '@/components/Categorias/EscuchoOferta.vue';
+import NuevoTrueke from '@/components/Categorias/NuevoTrueke.vue'
 import Nav from '@/components/common/Nav.vue';
 
 </script>
 
 <template>
   <main>
-   <Nav/>>
-   <EscuchoOferta/>
-   
+    <Nav/>>
+   <NuevoTrueke/>
    
   </main>
 </template>

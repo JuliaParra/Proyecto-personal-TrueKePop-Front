@@ -1,6 +1,6 @@
 <template>
   <div class="list-container">
-    <h3 class="section-title">Novedades</h3>
+    <h3 class="section-title">Escucho Ofertas.</h3>
     <div class="list-group">
       <div 
         class="list-group-item neon-effect" 
@@ -40,31 +40,34 @@ import Modal from '../Modal.vue';
 const truekes = ref([]);
 const trueke = ref(null);
 
-const fetchNovedades = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/trueke/novedades'); // Ajusta el endpoint según sea necesario
-    truekes.value = response.data;
-  } catch (error) {
-    console.error('Error al cargar los truekes:', error);
-  }
+const fetchDirecto = async () => {
+try {
+  const response = await axios.get('http://localhost:8080/api/trueke/directo'); // Ajusta el endpoint según sea necesario
+  truekes.value = response.data;
+} catch (error) {
+  console.error('Error al cargar los truekes:', error);
+}
 };
 
 const showDetails = (item) => {
-  trueke.value = item;
+trueke.value = item; // Muestra la información del trueke en el modal
 };
 
 const closeModal = () => {
-  trueke.value = null;
+trueke.value = null; // Cierra el modal
 };
 
 const likeItem = (item) => {
-  console.log('Liked item:', item);
+// Lógica para dar 'like' al trueke
+console.log('Liked item:', item);
 };
 
 onMounted(() => {
-  fetchNovedades();
+fetchDirecto();
 });
 </script>
+
+
 
 <style scoped>
 .list-container {
