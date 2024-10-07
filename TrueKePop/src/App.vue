@@ -7,14 +7,14 @@ import Footer from '@/components/common/Footer.vue';
 
 <template>
   <div id="app">
-    <body >
+    
       <Header />
         <main class="content">
           <router-view /> 
       
         </main>
     <Footer />
-  </body>
+  
   </div>
 </template>
 
@@ -25,6 +25,7 @@ import Footer from '@/components/common/Footer.vue';
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
  
   
 }
