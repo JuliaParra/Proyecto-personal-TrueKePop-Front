@@ -10,17 +10,17 @@ const authStore = useAuthStore();
 const isUserPage = computed(() => authStore.isAuthenticated);
 const userName = computed(() => authStore.userName); 
 
-// Estado para controlar el menú desplegable del logout
+
 const showLogout = ref(false);
 
-// Método para cerrar sesión
+
 const logout = () => {
-  authStore.logout(); // Llamada al método de logout en el store
-  router.push('/login'); // Redirigir al usuario a la página de inicio de sesión
-  showLogout.value = false; // Ocultar el menú de logout
+  authStore.logout();
+  router.push('/login'); 
+  showLogout.value = false; 
 };
 
-// Método para alternar el estado del menú de logout
+
 const toggleLogoutMenu = () => {
   showLogout.value = !showLogout.value;
 };

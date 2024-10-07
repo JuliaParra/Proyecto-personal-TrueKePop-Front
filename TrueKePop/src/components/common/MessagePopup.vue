@@ -1,13 +1,3 @@
-<template>
-    <div class="popup-container">
-        <div class="popup-content">
-            <button class="close-button" @click="$emit('close')">✖️</button>
-            <h2>Enviar Mensaje a {{ currentItem.ownerName }}</h2>
-            <textarea v-model="message" placeholder="Escribe tu mensaje aquí..."></textarea>
-            <button @click="sendMessage">Enviar</button>
-        </div>
-    </div>
-</template>
 
 <script setup>
 import { ref } from 'vue';
@@ -39,6 +29,21 @@ const sendMessage = async () => {
     }
 };
 </script>
+
+
+
+<template>
+    <div class="popup-container">
+        <div class="popup-content">
+            <button class="close-button" @click="$emit('close')">✖️</button>
+            <h2>Enviar Mensaje a {{ currentItem.ownerName }}</h2>
+            <textarea v-model="message" placeholder="Escribe tu mensaje aquí..."></textarea>
+            <button @click="sendMessage">Enviar</button>
+        </div>
+    </div>
+</template>
+
+
 
 <style scoped>
 .popup-container {

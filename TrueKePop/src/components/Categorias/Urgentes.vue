@@ -10,13 +10,18 @@
       >
         <div class="list-item-content">
           <div class="image-container">
-            <img :src="item.image" class="list-item-image" :alt="item.name" />
+            <img 
+              :src="item.image" 
+              class="list-item-image" 
+              :alt="item.name" 
+              @error="handleImageError"  
+            />
           </div>
           <div class="item-info">
             <h5 class="item-title">{{ item.name }}</h5>
             <p class="item-location"><i class="fas fa-map-marker-alt"></i> {{ item.location }}</p>
             <p class="item-description">{{ item.description }}</p>
-            <p class="item-owner"> {{ item.ownerName }}</p> <!-- Cambiado aquí -->
+            <p class="item-owner">{{ item.ownerName }}</p>
           </div>
         </div>
         <div class="item-footer">
@@ -26,7 +31,7 @@
             </button>
           </div>
           <button class="btn btn-info" @click.stop="openMessagePopup(item)">
-            👁️
+            ✉️
           </button>
         </div>
       </div>
@@ -51,17 +56,19 @@ const fetchNovedades = async () => {
       ...item,
       ownerName: item.ownerName 
     }));
+    console.log(truekes.value); // Para verificar los datos
   } catch (error) {
     console.error('Error al cargar los truekes:', error);
   }
 };
 
-const showDetails = (item) => {
-  trueke.value = item; 
+const handleImageError = (event) => {
+  // Ruta a una imagen predeterminada si ocurre un error al cargar la imagen original
+  event.target.src = 'https://via.placeholder.com/400x200?text=Imagen+No+Disponible';
 };
 
-const closeModal = () => {
-  trueke.value = null; 
+const showDetails = (item) => {
+  currentItem.value = item; 
 };
 
 const likeItem = (item) => {

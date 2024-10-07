@@ -1,3 +1,38 @@
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+
+const truekes = ref([]);
+const trueke = ref(null);
+
+const fetchNovedades = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/trueke/novedades'); 
+    truekes.value = response.data;
+  } catch (error) {
+    console.error('Error al cargar los truekes:', error);
+  }
+};
+
+const showDetails = (item) => {
+  trueke.value = item;
+};
+
+
+
+const likeItem = (item) => {
+  console.log('Liked item:', item);
+};
+
+onMounted(() => {
+  fetchNovedades();
+});
+</script>
+
+
+
 <template>
   <div class="list-container">
     <h3 class="section-title">Novedades</h3>
@@ -28,43 +63,11 @@
         </div>
       </div>
     </div>
-    <Modal v-if="trueke" :trueke="trueke" @close="closeModal" />
+   
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import Modal from '../Modal.vue';
 
-const truekes = ref([]);
-const trueke = ref(null);
-
-const fetchNovedades = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/trueke/novedades'); 
-    truekes.value = response.data;
-  } catch (error) {
-    console.error('Error al cargar los truekes:', error);
-  }
-};
-
-const showDetails = (item) => {
-  trueke.value = item;
-};
-
-const closeModal = () => {
-  trueke.value = null;
-};
-
-const likeItem = (item) => {
-  console.log('Liked item:', item);
-};
-
-onMounted(() => {
-  fetchNovedades();
-});
-</script>
 
 <style scoped>
 .list-container {

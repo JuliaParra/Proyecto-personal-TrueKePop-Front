@@ -1,58 +1,3 @@
-<template>
-  <div class="form-container">
-    <!-- Formulario centrado -->
-    <form class="blurred-form" @submit.prevent="submitForm">
-      <!-- Campo para el nombre del objeto -->
-      <div class="form-group">
-        <label for="name">Nombre del Objeto:</label>
-        <input type="text" id="name" v-model="truekeData.name" required />
-      </div>
-
-      <!-- Campo para el motivo del intercambio -->
-      <div class="form-group">
-        <label for="desiredItem">Motivo del Intercambio:</label>
-        <input type="text" id="desiredItem" v-model="truekeData.desiredItem" required />
-      </div>
-
-      <!-- Campo para seleccionar el tipo -->
-      <div class="form-group">
-        <label for="type">Tipo:</label>
-        <input type="text" id="type" v-model="truekeData.type" required />
-      </div>
-
-      <!-- Campo para la descripción -->
-      <div class="form-group">
-        <label for="description">Descripción del Objeto:</label>
-        <textarea id="description" v-model="truekeData.description" required></textarea>
-      </div>
-
-      <!-- Campo para la ubicación -->
-      <div class="form-group">
-        <label for="location">Ubicación:</label>
-        <input type="text" id="location" v-model="truekeData.location" required />
-      </div>
-
-      <!-- Campo para seleccionar la categoría -->
-      <div class="form-group">
-        <label for="category">Categoría:</label>
-        <select id="category" v-model="truekeData.categoryId" required>
-          <option value="1">Urgente</option>
-          <option value="2">Directo</option>
-          <option value="3">Escucho Ofertas</option>
-          <option value="4">Novedades</option>
-        </select>
-      </div>
-
-      <!-- Campo para subir la imagen -->
-      <div class="form-group">
-        <label for="image">Subir Imagen:</label>
-        <input type="file" id="image" @change="handleImageUpload" accept="image/*" required />
-      </div>
-
-      <button type="submit" class="submit-btn">Crear Trueke</button>
-    </form>
-  </div>
-</template>
 
 <script setup>
 import { ref } from 'vue';
@@ -111,26 +56,86 @@ const submitForm = async () => {
 };
 </script>
 
+
+
+<template>
+  <div class="form-container">
+    
+    <form class="blurred-form" @submit.prevent="submitForm">
+      
+      <div class="form-group">
+        <label for="name">Nombre del Objeto:</label>
+        <input type="text" id="name" v-model="truekeData.name" required />
+      </div>
+
+      
+      <div class="form-group">
+        <label for="desiredItem">Motivo del Intercambio:</label>
+        <input type="text" id="desiredItem" v-model="truekeData.desiredItem" required />
+      </div>
+
+     
+      <div class="form-group">
+        <label for="type">Tipo:</label>
+        <input type="text" id="type" v-model="truekeData.type" required />
+      </div>
+
+     
+      <div class="form-group">
+        <label for="description">Descripción del Objeto:</label>
+        <textarea id="description" v-model="truekeData.description" required></textarea>
+      </div>
+
+     
+      <div class="form-group">
+        <label for="location">Ubicación:</label>
+        <input type="text" id="location" v-model="truekeData.location" required />
+      </div>
+
+     
+      <div class="form-group">
+        <label for="category">Categoría:</label>
+        <select id="category" v-model="truekeData.categoryId" required>
+          <option value="1">Urgente</option>
+          <option value="2">Directo</option>
+          <option value="3">Escucho Ofertas</option>
+          <option value="4">Novedades</option>
+        </select>
+      </div>
+
+   
+      <div class="form-group">
+        <label for="image">Subir Imagen:</label>
+        <input type="file" id="image" @change="handleImageUpload" accept="image/*" required />
+      </div>
+
+      <button type="submit" class="submit-btn">Crear Trueke</button>
+    </form>
+  </div>
+</template>
+
+
+
 <style scoped>
-/* Fondo desenfocado */
+
 .form-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #e0e0e0, #ffffff); /* Fondo degradado */
-  backdrop-filter: blur(5px); /* Efecto desenfoque */
+  background: linear-gradient(135deg, #e0e0e0, #ffffff); 
+  backdrop-filter: blur(5px); 
 }
 
-/* Formulario centrado y elegante */
+
 .blurred-form {
   width: 90%;
   max-width: 600px;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+  background: rgba(255, 255, 255, 0.8); 
   border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de "popup" */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 .form-group {
@@ -152,7 +157,7 @@ select {
   box-sizing: border-box;
   border: 2px solid #007bff;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo más opaco */
+  background-color: rgba(255, 255, 255, 0.9); 
   transition: all 0.3s ease;
 }
 

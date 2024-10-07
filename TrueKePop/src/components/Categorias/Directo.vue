@@ -1,3 +1,24 @@
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const truekes = ref([]);
+
+const fetchDirecto = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/trueke/directo');
+    truekes.value = response.data;
+  } catch (error) {
+    console.error('Error al cargar los truekes:', error);
+  }
+};
+
+onMounted(() => {
+  fetchDirecto();
+});
+</script>
+
 <template>
   <div class="list-container">
     <h2>Directo</h2>
@@ -20,25 +41,7 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
 
-const truekes = ref([]);
-
-const fetchDirecto = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/trueke/directo');
-    truekes.value = response.data;
-  } catch (error) {
-    console.error('Error al cargar los truekes:', error);
-  }
-};
-
-onMounted(() => {
-  fetchDirecto();
-});
-</script>
 
 <style scoped>
 .list-container {

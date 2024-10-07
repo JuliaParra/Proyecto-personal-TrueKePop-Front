@@ -4,24 +4,24 @@ import axios from 'axios';
 
 const novedades = ref([]);
 
-// Función para obtener los truekes del backend
+
 const fetchNovedades = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/trueke/urgente'); // Asegúrate de que este endpoint sea correcto
-    novedades.value = response.data; // Asigna los truekes a la referencia
+    const response = await axios.get('http://localhost:8080/api/trueke/urgente'); 
+    novedades.value = response.data; 
   } catch (error) {
     console.error('Error al cargar los truekes:', error.response ? error.response.data : error.message);
   }
 };
 
-// Llama a la función para cargar los truekes al montar el componente
+
 onMounted(() => {
   fetchNovedades();
 });
 
-// Computed para dividir los truekes en chunks para el carrusel
+
 const chunkedNovedades = computed(() => {
-  const chunkSize = 3; // Número de cards por slide
+  const chunkSize = 3; 
   const chunks = [];
   for (let i = 0; i < novedades.value.length; i += chunkSize) {
     chunks.push(novedades.value.slice(i, i + chunkSize));

@@ -1,14 +1,3 @@
-<template>
-    <div class="messages-container">
-        <h3>Mensajes</h3>
-        <ul>
-            <li v-for="message in messages" :key="message.id">
-                <strong>{{ message.ownerName }}</strong>: {{ message.content }}
-                <button @click="eliminarMensaje(message.id)">🗑️ Borrar</button>
-            </li>
-        </ul>
-    </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -40,6 +29,23 @@ onMounted(() => {
     fetchMessages();
 });
 </script>
+
+
+
+
+
+<template>
+    <div class="messages-container">
+        <h3>Mensajes</h3>
+        <ul>
+            <li v-for="message in messages" :key="message.id">
+                <strong>{{ message.ownerName }}</strong>: {{ message.content }}
+                <button @click="eliminarMensaje(message.id)">🗑️ Borrar</button>
+            </li>
+        </ul>
+    </div>
+</template>
+
 
 <style scoped>
 .messages-container {

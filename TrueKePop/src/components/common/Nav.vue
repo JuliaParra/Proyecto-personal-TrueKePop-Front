@@ -6,12 +6,12 @@
         <router-link to="/escuchoOfertas" class="nav-link nav-button" :class="{ active: $route.path === '/escuchoOfertas' }">Escucho Ofertas</router-link>
         <router-link to="/novedades" class="nav-link nav-button" :class="{ active: $route.path === '/novedades' }">Novedades</router-link>
 
-        <!-- Mostrar estas opciones adicionales solo si el usuario está autenticado -->
+        
         <router-link v-if="authStore.isAuthenticated" to="/favoritos" class="nav-link nav-button" :class="{ active: $route.path === '/favoritos' }">Favoritos</router-link>
         <router-link v-if="authStore.isAuthenticated" to="/mensajes" class="nav-link nav-button" :class="{ active: $route.path === '/mensajes' }">Mensajes</router-link>
         <router-link v-if="authStore.isAuthenticated" to="/subir-trueke" class="nav-link nav-button" :class="{ active: $route.path === '/subir-trueke' }">Subir Trueke</router-link>
 
-        <!-- Botón +Trueke -->
+        
         <router-link to="/nuevoTrueke" class="nav-link nav-button" :class="{ active: $route.path === '/nuevoTrueke' }">+Trueke</router-link>
       </div>
     </div>
