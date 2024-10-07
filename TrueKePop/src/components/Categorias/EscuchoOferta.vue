@@ -74,10 +74,11 @@ onMounted(() => {
 }
 
 .section-title {
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 40px;
   font-weight: bold;
-  color: #007bff; 
+  color: #ff7b00; 
+  font-family:unset
 }
 
 .list-group {
