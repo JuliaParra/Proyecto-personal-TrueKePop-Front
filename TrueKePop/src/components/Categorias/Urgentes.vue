@@ -62,10 +62,7 @@ const fetchNovedades = async () => {
   }
 };
 
-const handleImageError = (event) => {
-  // Ruta a una imagen predeterminada si ocurre un error al cargar la imagen original
-  event.target.src = 'https://via.placeholder.com/400x200?text=Imagen+No+Disponible';
-};
+
 
 const showDetails = (item) => {
   currentItem.value = item; 

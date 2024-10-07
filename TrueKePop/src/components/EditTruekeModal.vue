@@ -1,15 +1,43 @@
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal-content">
-      <h2>Editar Trueke</h2>
+      <h2 class="modal-title">Editar Trueke</h2>
       <form @submit.prevent="updateTrueke">
         <div class="form-group">
           <label>Nombre</label>
-          <input v-model="localTrueke.name" class="form-input" />
+          <input v-model="localTrueke.name" class="form-input" required />
         </div>
         <div class="form-group">
           <label>Descripción</label>
-          <textarea v-model="localTrueke.description" class="form-input"></textarea>
+          <textarea v-model="localTrueke.description" class="form-input" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Imagen URL</label>
+          <input v-model="localTrueke.image" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Ubicación</label>
+          <input v-model="localTrueke.location" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label>Artículo Deseado</label>
+          <input v-model="localTrueke.desiredItem" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <input v-model="localTrueke.type" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label>Likes</label>
+          <input v-model="localTrueke.likes" type="number" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Nombre del Propietario</label>
+          <input v-model="localTrueke.ownerName" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label>Categoría</label>
+          <input v-model="localTrueke.categoria" class="form-input" required />
         </div>
         <button type="submit" class="btn-update">Actualizar Trueke</button>
       </form>
@@ -22,7 +50,6 @@
 import { ref, watch } from 'vue';
 import axios from 'axios';
 
-// Configurar la URL base del backend
 axios.defaults.baseURL = 'http://localhost:8080';
 
 const props = defineProps({
@@ -37,49 +64,28 @@ watch(
   () => props.trueke,
   (newTrueke) => {
     localTrueke.value = { ...newTrueke };
-    console.log('Modal: Trueke actualizado:', localTrueke.value);
   },
   { immediate: true }
 );
 
 const updateTrueke = async () => {
   try {
-    // Depuración: Verificar los valores que se van a enviar
-    console.log('Datos del trueke a actualizar:', {
-      name: localTrueke.value.name,
-      description: localTrueke.value.description,
-      location: localTrueke.value.location,
-      desiredItem: localTrueke.value.desiredItem,
-      type: localTrueke.value.type,
-      categoryId: localTrueke.value.categoryId,
-      image: localTrueke.value.image,
-    });
-
-    // Construir el objeto JSON para enviar
     const truekeData = {
       name: localTrueke.value.name,
       description: localTrueke.value.description,
+      image: localTrueke.value.image,
       location: localTrueke.value.location,
       desiredItem: localTrueke.value.desiredItem,
       type: localTrueke.value.type,
-      categoryId: localTrueke.value.categoryId,
-      image: localTrueke.value.image || '', // Asumimos que la imagen puede ser una URL o un archivo vacío
+      likes: localTrueke.value.likes || 0,
+      ownerName: localTrueke.value.ownerName,
+      categoria: localTrueke.value.categoria,
     };
 
-    // Solicitud PUT al backend
-    const response = await axios.put(`/api/trueke/${localTrueke.value.id}`, truekeData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    console.log('Trueke actualizado con éxito:', response.data);
+    await axios.put(`/api/trueke/${localTrueke.value.id}`, truekeData);
     emit('update', { ...localTrueke.value });
   } catch (error) {
     console.error('Error al actualizar el trueke:', error);
-    if (error.response) {
-      console.error('Detalles del error:', error.response.data);
-    }
   }
 };
 
@@ -89,7 +95,6 @@ const close = () => {
 </script>
 
 <style scoped>
-/* Estilos básicos para el modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -105,42 +110,46 @@ const close = () => {
 
 .modal-content {
   background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  max-width: 350px;
+  width: 90%;
 }
 
-h2 {
-  margin-bottom: 20px;
+.modal-title {
+  margin-bottom: 10px;
   text-align: center;
   color: #333;
+  font-size: 1.2em;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .form-input {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.btn-update {
+.btn-update, .btn-close {
   display: block;
   width: 100%;
   padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-update {
   background-color: #007bff;
   color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 15px;
 }
 
 .btn-update:hover {
@@ -148,19 +157,11 @@ h2 {
 }
 
 .btn-close {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #ff4d4d;
+  background-color: #dc3545;
   color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
 }
 
 .btn-close:hover {
-  background-color: #cc0000;
+  background-color: #c82333;
 }
 </style>

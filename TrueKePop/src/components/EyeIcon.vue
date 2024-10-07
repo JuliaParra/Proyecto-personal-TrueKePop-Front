@@ -7,10 +7,10 @@
 <script setup>
 import { defineEmits } from 'vue';
 
-const emit = defineEmits(['open-popup']); // Emitir evento para abrir el popup
+const emit = defineEmits(['open-popup']); 
 
 const openPopup = () => {
-    emit('open-popup'); // Emitir el evento
+    emit('open-popup'); 
 };
 </script>
 
@@ -19,11 +19,11 @@ const openPopup = () => {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 1.5rem; /* Tamaño del icono */
+    font-size: 1.5rem; 
     transition: transform 0.2s;
 }
 
 .btn-eye:hover {
-    transform: scale(1.1); /* Efecto al pasar el mouse */
+    transform: scale(1.1); 
 }
 </style>

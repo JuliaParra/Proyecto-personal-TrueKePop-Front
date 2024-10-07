@@ -2,36 +2,32 @@
   <nav class="navigation navbar navbar-expand-md py-1">
     <div class="container-fluid">
       <div class="navbar-nav">
-        <router-link to="/urgente" class="nav-link nav-button" :class="{ active: $route.path === '/urgente' }">Urgente</router-link>
-        <router-link to="/escuchoOfertas" class="nav-link nav-button" :class="{ active: $route.path === '/escuchoOfertas' }">Escucho Ofertas</router-link>
-        <router-link to="/directo" class="nav-link nav-button" :class="{ active: $route.path === '/directo' }">Directo</router-link>
-        <router-link to="/novedades" class="nav-link nav-button" :class="{ active: $route.path === '/novedades' }">Novedades</router-link>
-
-        <!-- Mostrar solo si el usuario está logueado -->
-        <router-link v-if="isLoggedIn" to="/favoritos" class="nav-link nav-button" :class="{ active: $route.path === '/favoritos' }">Mis Favoritos</router-link>
-        <router-link v-if="isLoggedIn" to="/perfil" class="nav-link nav-button" :class="{ active: $route.path === '/perfil' }">Perfil</router-link>
-
-        <button class="nav-link nav-button" @click="toggleModal">Subir Trueke</button>
+        
+        <router-link to="/user/urgente" class="nav-link nav-button" :class="{ active: $route.path === '/user/urgente' }">Urgente</router-link>
+        <router-link to="/user/escuchoOfertas" class="nav-link nav-button" :class="{ active: $route.path === '/user/escuchoOfertas' }">Escucho Ofertas</router-link>
+        <router-link to="/user/novedades" class="nav-link nav-button" :class="{ active: $route.path === '/user/novedades' }">Novedades</router-link>
+        <router-link to="/user/favoritos" class="nav-link nav-button" :class="{ active: $route.path === '/user/favoritos' }">Favoritos</router-link>
+        <router-link to="/user/mensajes" class="nav-link nav-button" :class="{ active: $route.path === '/user/mensajes' }">Mensajes</router-link>
+        <button class="nav-link nav-button" @click="openModal">Subir Trueke</button>
       </div>
     </div>
 
-    <NuevoTrueke :isVisible="showModal" @close="toggleModal" />
+    <NuevoTrueke v-if="showModal" @close="closeModal" />
   </nav>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useAuthStore } from '@/stores/authStore'; // Asegúrate de que esta tienda maneje el estado de autenticación
-import NuevoTrueke from '../Categorias/NuevoTrueke.vue';
+import { ref } from 'vue';
+import NuevoTrueke from '@/components/Categorias/NuevoTrueke.vue'; 
 
-const authStore = useAuthStore();
-const showModal = ref(false);
+const showModal = ref(false); 
 
-// Computed property para verificar si el usuario está logueado
-const isLoggedIn = computed(() => authStore.isLoggedIn);
+const openModal = () => {
+  showModal.value = true; 
+};
 
-const toggleModal = () => {
-  showModal.value = !showModal.value;
+const closeModal = () => {
+  showModal.value = false; 
 };
 </script>
 
@@ -46,6 +42,7 @@ const toggleModal = () => {
   transition: color 0.3s ease, background-color 0.3s ease; 
   border-radius: 10px; 
   position: relative;
+  z-index: 10; 
 }
 
 .nav-button:hover {

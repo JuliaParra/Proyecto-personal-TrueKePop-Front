@@ -11,89 +11,111 @@ import RegisterView from '@/views/auth/RegisterView.vue';
 import UserView from '@/views/users/UserView.vue';
 import FavoritosView from '@/views/categorias/FavoritosView.vue';
 import NuevoTruekeView from '@/views/categorias/NuevoTruekeView.vue';
-
 import TusTruekesView from '@/views/users/TusTruekesView.vue';
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: HomePage,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/directo',
+    name: 'Directo',
+    component: DirectoView,
+  },
+  {
+    path: '/novedades',
+    name: 'Novedades',
+    component: NovedadesView,
+  },
+  {
+    path: '/escuchoOfertas',
+    name: 'EscuchoOfertas',
+    component: EscuchoOfertasView,
+  },
+  {
+    path: '/urgente',
+    name: 'Urgente',
+    component: UrgenteView,
+  },
+  {
+    path: '/tepuedeinteresar',
+    name: 'TePuedeInteresar',
+    component: TePuedeInteresar,
+  },
+  {
+    path: '/Admindashboard',
+    name: 'Admindashboard',
+    component: AdminView,
+    meta: { requiresAuth: true, requiredRole: 'ROLE_ADMIN' },
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: UserView,
+    meta: { requiresAuth: true, requiredRole: 'ROLE_USER' },
+    children: [
+
+     
+
+      {
+        path: 'urgente',
+        name: 'UserUrgente',
+        component: UrgenteView,
+      },
+      {
+        path: 'escuchoOfertas',
+        name: 'UserEscuchoOfertas',
+        component: EscuchoOfertasView,
+      },
+      {
+        path: 'directo',
+        name: 'UserDirecto',
+        component: DirectoView,
+      },
+      {
+        path: 'novedades',
+        name: 'UserNovedades',
+        component: NovedadesView,
+      },
+      {
+        path: 'favoritos',
+        name: 'UserFavoritos',
+        component: FavoritosView,
+      },
+      {
+        path: 'tepuedeinteresar',
+        name: 'UserTePuedeInteresar',
+        component: TePuedeInteresar,
+      },
+      {
+        path: 'nuevotrueke',
+        name: 'NuevoTrueke',
+        component: NuevoTruekeView,
+      },
+      {
+        path: 'tusTruekes',
+        name: 'TusTruekes',
+        component: TusTruekesView,
+      },
+    ],
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: HomePage,
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: RegisterView,
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login,
-    },
-    {
-      path: '/directo',
-      name: 'Directo',
-      component: DirectoView,
-    },
-    {
-      path: '/novedades',
-      name: 'Novedades',
-      component: NovedadesView,
-    },
-    {
-      path: '/escuchoOfertas',
-      name: 'EscuchoOfertas',
-      component: EscuchoOfertasView,
-    },
-    {
-      path: '/urgente',
-      name: 'Urgente',
-      component: UrgenteView,
-    },
-    {
-      path: '/tepuedeinteresar',
-      name: 'TePuedeInteresar',
-      component: TePuedeInteresar,
-    },
-    {
-      path: '/urgente',
-      name: 'Urgente',
-      component: UrgenteView,
-    },
-    {
-      path: '/Admindashboard',
-      name: 'Admindashboard',
-      component: AdminView,
-      meta: { requiresAuth: true, requiredRole: 'ROLE_ADMIN' },
-    },
-    {
-      path: '/User',
-      name: 'User',
-      component: UserView,
-      meta: { requiresAuth: true, requiredRole: 'ROLE_USER' },
-    },
-    {
-      path: '/favoritos',
-      name: 'Favoritos',
-      component: FavoritosView,
-    },
-
-    {
-      path: '/nuevotrueke',
-      name: 'NuevoTrueke',
-      component: NuevoTruekeView,
-    },
-
-    {
-      path: '/tusTruekes',
-      name: 'TusTruekes',
-      component: TusTruekesView,
-    },
-  ]
+  routes,
 });
-
- 
 
 export default router;

@@ -3,7 +3,7 @@
     <nav class="navbar">
       <div class="container-fluid">
         <a class="navbar-brand">Administrador Truekepop</a>
-        <div class="welcome-message"> ¡Otra vez aqui ! 😊</div>
+        <div class="welcome-message">¡Otra vez aquí! 😊</div>
         <button class="btn btn-outline-warning btn-sm" @click="logout">Cerrar Sesión</button>
       </div>
     </nav>
@@ -46,10 +46,19 @@
       <!-- Mensajes Recibidos -->
       <div class="messages-section">
         <h2 class="section-title">Mensajes Recibidos</h2>
-        <div class="card messages-card">
+        <div v-if="messages.length === 0" class="card messages-card">
           <div class="card-body">
             <h5 class="messages-title">Mensajes</h5>
             <p class="card-text">No hay mensajes nuevos.</p>
+          </div>
+        </div>
+        <div v-else>
+          <div v-for="message in messages" :key="message.id" class="card messages-card">
+            <div class="card-body">
+              <h5 class="messages-title">{{ message.ownerName }}</h5>
+              <p class="card-text">{{ message.content }}</p>
+              <button class="btn-delete" @click="eliminarMensaje(message.id)">🗑️ Borrar</button>
+            </div>
           </div>
         </div>
       </div>
@@ -74,6 +83,7 @@ import EditTruekeModal from '@/components/EditTruekeModal.vue';
 
 const router = useRouter(); 
 const truekes = ref([]);
+const messages = ref([]); // Nuevo array para almacenar los mensajes
 const searchId = ref('');
 const filteredTruekes = ref([]);
 const showEditModal = ref(false);
@@ -89,12 +99,30 @@ const fetchTruekes = async () => {
   }
 };
 
+const fetchMessages = async () => { // Nueva función para obtener los mensajes
+  try {
+    const response = await axios.get('http://localhost:8080/api/messages', { withCredentials: true });
+    messages.value = response.data;
+  } catch (error) {
+    console.error('Error al obtener los mensajes:', error);
+  }
+};
+
 const eliminarTrueke = async (id) => {
   try {
     await axios.delete(`http://localhost:8080/api/trueke/${id}`);
     filteredTruekes.value = filteredTruekes.value.filter(trueke => trueke.id !== id);
   } catch (error) {
     console.error('Error al eliminar el trueke:', error);
+  }
+};
+
+const eliminarMensaje = async (id) => { // Nueva función para eliminar mensajes
+  try {
+    await axios.delete(`http://localhost:8080/api/messages/${id}`);
+    messages.value = messages.value.filter(message => message.id !== id);
+  } catch (error) {
+    console.error('Error al eliminar el mensaje:', error);
   }
 };
 
@@ -132,18 +160,31 @@ const logout = () => {
 
 onMounted(() => {
   fetchTruekes();
+  fetchMessages(); // Llamada para obtener los mensajes al montar el componente
 });
 </script>
 
+
+
+
+
 <style scoped>
+
+
 .admin-dashboard {
-  background-color: #f0f4f8;
+  
+  background-size: 200% 200%;
+  animation: colorChange 5s ease-in-out infinite, moveUpDown 3s ease-in-out infinite;
   padding: 20px;
+  height: 1000vh; 
 }
+
+
+
 
 .dashboard-content {
   display: flex;
-  gap: 20px;
+  gap: 60px;
 }
 
 .truekes-section, .messages-section {
@@ -151,9 +192,11 @@ onMounted(() => {
 }
 
 .section-title {
+  margin: 5%;
   color: #24768f;
   font-weight: bold;
   margin-bottom: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .welcome-message {
@@ -170,19 +213,21 @@ onMounted(() => {
 
 .search-input {
   flex: 1;
+  
 }
 
 .btn-search {
-  background-color: #0366d6;
+  background-color: #d66903;
   color: white;
   border: none;
+  
   padding: 8px 16px;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .btn-search:hover {
-  background-color: #ff6d41;
+  background-color: #0a61522c;
 }
 
 .empty-message {
@@ -224,9 +269,9 @@ onMounted(() => {
 
 .trueke-title {
   font-size: 1.5em;
-  background-image: linear-gradient(45deg, #0366d6, #ff6d41);
-  -webkit-background-clip: text;
-  color: transparent;
+  
+  
+  color: bisque;
 }
 
 .trueke-description, .trueke-info {

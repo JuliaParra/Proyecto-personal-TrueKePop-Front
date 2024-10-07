@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     login(user) {
       this.isAuthenticated = true;
-      this.userName = user.name; // Asigna el nombre del usuario al iniciar sesión
+      this.userName = user.name; 
     },
     logout() {
       this.isAuthenticated = false;

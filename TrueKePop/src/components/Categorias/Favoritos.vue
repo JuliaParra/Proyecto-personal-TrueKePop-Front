@@ -15,7 +15,6 @@ const fetchFavoritos = async () => {
   }
 };
 
-
 onMounted(() => {
   fetchFavoritos();
 });
@@ -29,7 +28,11 @@ onMounted(() => {
         <CardCategoria :titulo="favorito.name" :descripcion="favorito.description" :imagen="favorito.image" />
       </div>
     </div>
-    <p v-else>No hay truekes favoritos aún.</p>
+    
+    <div v-else class="obras-image-container">
+      <img src="/src/assets/images/obras.jpg.webp" alt="Estamos en obras" class="obras-image" />
+      <p>No hay truekes favoritos aún.</p>
+    </div>
   </div>
 </template>
 
@@ -39,6 +42,22 @@ onMounted(() => {
 }
 
 .favorito-item {
+  margin-bottom: 20px;
+}
+
+
+.obras-image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.obras-image {
+  max-width: 100%;
+  height: 88vh;
+  object-fit: contain;
   margin-bottom: 20px;
 }
 </style>

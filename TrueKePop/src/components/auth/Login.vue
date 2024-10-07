@@ -48,7 +48,7 @@ const submitLogin = async () => {
                 if (roles.includes('ROLE_ADMIN')) {
                     router.push('/Admindashboard');  
                 } else if (roles.includes('ROLE_USER')) {
-                    router.push('/User');  
+                    router.push('/User/favoritos');  
                 } else {
                     authErrorMessage.value = 'Rol no reconocido.';
                 }

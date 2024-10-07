@@ -1,12 +1,14 @@
+<template>
+  <div>
+    <User /> 
+    <router-view /> 
+  </div>
+</template>
+
 <script setup>
-import User from '@/components/users/User.vue'
-
-
+import User from '@/components/users/User.vue'; 
 </script>
 
-<template>
-  <main>
-   <User/>
-   
-  </main>
-</template>
+<style scoped>
+
+</style>
